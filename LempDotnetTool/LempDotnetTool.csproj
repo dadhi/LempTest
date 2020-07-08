@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>lemp</ToolCommandName>
+        <VersionPrefix>1.0.0</VersionPrefix>
+        <VersionSuffix>preview-01</VersionSuffix>
+        <PackageOutputPath>./nupkg</PackageOutputPath>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    </PropertyGroup>
+</Project>
