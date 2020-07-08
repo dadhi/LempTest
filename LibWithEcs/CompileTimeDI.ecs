@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+
+namespace LibWithEcs
+{
+    partial public class CompileTimeDI
+    {
+        public Dictionary<Type, Expression<Func<object>>> Factories;
+
+        public this() {}
+    }
+}
