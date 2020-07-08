@@ -9,9 +9,9 @@ namespace LempDotnetTool
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(string.Join(' ', args));
-            // Console.WriteLine(Directory.GetCurrentDirectory());
-            Process.Start(".\\LEMP\\LEMP.exe");
+            var argsString = string.Join(' ', args);
+            var process = Process.Start(".\\LEMP\\LEMP.exe", argsString);
+            process.WaitForExit();
         }
     }
 }
