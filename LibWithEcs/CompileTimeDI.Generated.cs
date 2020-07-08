@@ -7,7 +7,7 @@ namespace LibWithEcs
     public partial class CompileTimeDI
     {
         public Dictionary<Type, Expression<Func<object>>> Factories;
-
-        public this() {} // ecs construct for test
+    
+        public CompileTimeDI() { }	// ecs construct fot test
     }
 }

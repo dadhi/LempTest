@@ -10,4 +10,7 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     </PropertyGroup>
+    <ItemGroup>
+        <None Include="LEMP\**" Pack="true" PackagePath="lib\lemp" Visible="false" />
+    </ItemGroup>
 </Project>
