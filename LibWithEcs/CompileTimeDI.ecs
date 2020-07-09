@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
+includeFile("ServiceRegistrations.ecs.include");
+
 namespace LibWithEcs
 {
     public partial class CompileTimeDI
@@ -9,5 +11,7 @@ namespace LibWithEcs
         public Dictionary<Type, Expression<Func<object>>> Factories;
 
         public this() {} // ecs construct for test
+
+        RegisterServices();
     }
 }

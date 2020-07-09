@@ -6,6 +6,7 @@
         <EcsFile Include="**\*.ecs" />
         <!--Defining the collection so it could be cleanup later via the CleanupGenerated target-->
         <Generated Include="**\*.Generated.cs" />
+        <None Include="**\*.ecs.include" />
     </ItemGroup>
     <Target Name="LempTransform" BeforeTargets="BeforeBuild">
         <Exec 

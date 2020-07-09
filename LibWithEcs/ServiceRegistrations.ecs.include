@@ -1,0 +1,4 @@
+define RegisterServices() 
+{
+    public void XXX() {}
+}

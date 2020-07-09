@@ -9,5 +9,6 @@ namespace LibWithEcs
         public Dictionary<Type, Expression<Func<object>>> Factories;
     
         public CompileTimeDI() { }	// ecs construct for test
+        public void XXX() { }
     }
 }
