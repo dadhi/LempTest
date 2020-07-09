@@ -10,7 +10,7 @@ namespace LempDotnetTool
         static void Main(string[] args)
         {
             var argsString = string.Join(' ', args);
-            var process = Process.Start(".\\LEMP\\LEMP.exe", argsString);
+            var process = Process.Start("LeMP.exe", argsString);
             process.WaitForExit();
         }
     }
