@@ -1,4 +1,6 @@
-define RegisterServices() 
-{
-    public void XXX() {}
-}
+// compileTime 
+// {
+//     // using System.Linq.Expressions;
+//     // var di = new CompileTimeDI();
+//     // di.Factories.Add(typeof(X), () => new X());
+// }
