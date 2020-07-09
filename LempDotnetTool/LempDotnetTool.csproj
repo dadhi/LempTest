@@ -9,6 +9,6 @@
         <PackageOutputPath>..\.nupkg</PackageOutputPath>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <NoWarn>$(NoWarn);NU5128;NU5101</NoWarn>
+        <NoWarn>$(NoWarn);NU5128;NU5101;CS7021</NoWarn>
     </PropertyGroup>
 </Project>
