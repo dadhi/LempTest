@@ -1,20 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿compileTimeAndRuntime 
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
+    namespace LibWithEcs
+    {
+        public partial class CompileTimeDI
+        {
+            public Dictionary<Type, Expression<Func<object>>> Factories;
+
+            public this() 
+            {
+                Factories = new Dictionary<Type, Expression<Func<object>>>();
+            }
+        }
+    }
+}
+
+includeFile("ServiceRegistrations.ecs.include");
 
 namespace LibWithEcs
 {
-    public partial class CompileTimeDI
+    partial class CompileTimeDI
     {
-        public Dictionary<Type, Expression<Func<object>>> Factories;
-
-        public this() 
-        {
-            Factories = new Dictionary<Type, Expression<Func<object>>>();
-        }
+        public static CompileTimeDI Default = precompute(@di.Args);
     }
-
-    rawPrecompute(quote { void Z() {} })
 }
-
-//includeFile("ServiceRegistrations.ecs.include")

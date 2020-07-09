@@ -1,6 +1,4 @@
-// compileTime 
-// {
-//     // using System.Linq.Expressions;
-//     // var di = new CompileTimeDI();
-//     // di.Factories.Add(typeof(X), () => new X());
-// }
+compileTime 
+{
+    var @di = quote { new CompileTimeDI() };
+}
