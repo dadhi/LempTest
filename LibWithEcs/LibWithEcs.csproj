@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <NoWarn>$(NoWarn);CS7021</NoWarn>
     </PropertyGroup>
     <ItemGroup>
         <EcsFile Include="**\*.ecs" />
