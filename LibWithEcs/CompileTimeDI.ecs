@@ -64,13 +64,11 @@ compileTime
 {
     using System.Linq;
 
-    string GetMethodName(Type serviceType) => "Get_" + serviceType.Name;
-    var ecs = Loyc.Ecs.EcsLanguageService.Value;
-
     var factories = ServiceRegistrations.CreateAndConfigure().Factories;
 
+    var ecs = Loyc.Ecs.EcsLanguageService.Value;
     var getMethods = factories.Select(f => quote {
-        object $(LNode.Id(GetMethodName(f.Key)))(IResolver r) =>
+        object $(LNode.Id("Get_" + f.Key))(IResolver r) =>
             $(..ecs.Parse(f.Value.Body.ToString()));
     });
 }
