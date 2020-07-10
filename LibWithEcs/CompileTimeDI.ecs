@@ -68,12 +68,11 @@ compileTime
     var ecs = Loyc.Ecs.EcsLanguageService.Value;
 
     var factories = ServiceRegistrations.CreateAndConfigure().Factories;
+
     var getMethods = factories.Select(f => quote {
         object $(LNode.Id(GetMethodName(f.Key)))(IResolver r) =>
             $(..ecs.Parse(f.Value.Body.ToString()));
     });
-
-    Console.WriteLine(ecs.Print(getMethods.First()));
 }
 
 namespace LibWithEcs
