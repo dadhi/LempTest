@@ -33,16 +33,21 @@
 
 // returns `di`
 includeFile("ServiceRegistrations.ecs.include");
+compileTime 
+{
+    using System.Linq;
 
-
+    var factories = ServiceRegistrations.CreateAndConfigure().Factories;
+    var getMethods = factories.Select(f => quote {
+        object $(LNode.Id("Get_" + f.Key.Name))() => 
+            $(LNode.Literal(f.Value.Body.ToString()));
+    });
+}
 
 namespace LibWithEcs
 {
     partial class CompileTimeDI
     {
-        precompute(System.Linq.Enumerable.Select(ServiceRegistrations.CreateAndConfigure().Factories, f => quote {
-            object $(LNode.Id("Get_" + f.Key.Name))() => 
-                $(LNode.Literal(f.Value.Body.ToString()));
-        }));
+        precompute(getMethods);
     }
 }
