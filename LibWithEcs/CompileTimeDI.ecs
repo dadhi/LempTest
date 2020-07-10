@@ -64,9 +64,11 @@ compileTime
 {
     using System.Linq;
 
+    string GetMethodName(Type serviceType) => "Get_" + serviceType.Name; 
+
     var factories = ServiceRegistrations.CreateAndConfigure().Factories;
     var getMethods = factories.Select(f => quote {
-        object $(LNode.Id("Get_" + f.Key.Name))(IResolver r) => 
+        object $(LNode.Id(GetMethodName(f.Key)))(IResolver r) => 
             $(LNode.Literal(f.Value.Body.ToString()));
     });
 }
@@ -75,10 +77,13 @@ namespace LibWithEcs
 {
     partial class CompileTimeDI
     {
-        precompute(getMethods);
+        partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated) 
+        {
+            // precompute(
+            // );
+        }
 
-        // todo: @wip generate
-        partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated) {}
+        precompute(getMethods);
     }
 
     public static class Resolver 

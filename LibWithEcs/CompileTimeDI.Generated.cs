@@ -43,6 +43,7 @@ namespace LibWithEcs
         
             if (Factories.TryGetValue(serviceType, out var facExpr))
             {
+                // todo: @feature insert caching of compiled delegate here
                 var fDelegate = facExpr.Compile();
                 return fDelegate(this);
             }
@@ -57,9 +58,13 @@ namespace LibWithEcs
 {
     partial class CompileTimeDI
     {
+        partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated)
+        {
+        	// precompute(
+        	// );
+         }
+    
         object Get_A(IResolver r) => "new A()";
-        // todo: @wip generate
-        partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated) { }
     }
 
     public static class Resolver
