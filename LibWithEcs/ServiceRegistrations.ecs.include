@@ -1,4 +1,15 @@
 compileTime 
 {
-    var @di = quote { new CompileTimeDI() };
+    // NOTE: Here is the place the User code
+    public static class ServiceRegistrations 
+    {
+        public static CompileTimeDI CreateAndConfigure() 
+        {
+            var di = new CompileTimeDI();
+            
+            di.Register<A>(r => new A());
+            
+            return di;
+        }
+    }
 }

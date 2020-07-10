@@ -1,6 +1,6 @@
 namespace LibWithEcs
 {
-    public class X
+    public class X // todo: move to another assembly
     {
         
     }

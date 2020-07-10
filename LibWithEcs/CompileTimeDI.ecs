@@ -5,24 +5,44 @@
     using System.Linq.Expressions;
     namespace LibWithEcs
     {
-        public partial class CompileTimeDI
+        public class A {} // todo: @test just for test here, move to another assembly 
+
+        public interface IResolver 
         {
-            public Dictionary<Type, Expression<Func<object>>> Factories;
+            object Resolve(Type serviceType);
+        }
+
+        public partial class CompileTimeDI : IResolver
+        {
+            public Dictionary<Type, Expression<Func<IResolver, object>>> Factories;
 
             public this() 
             {
-                Factories = new Dictionary<Type, Expression<Func<object>>>();
+                Factories = new Dictionary<Type, Expression<Func<IResolver, object>>>();
             }
+
+            public void Register<T>(Expression<Func<IResolver, object>> factory)
+            {
+                Factories.Add(typeof(T), factory);
+            }
+
+            public object Resolve(Type serviceType) => null;
         }
     }
 }
 
+// returns `di`
 includeFile("ServiceRegistrations.ecs.include");
+
+
 
 namespace LibWithEcs
 {
     partial class CompileTimeDI
     {
-        public static CompileTimeDI Default = precompute(@di.Args);
+        precompute(System.Linq.Enumerable.Select(ServiceRegistrations.CreateAndConfigure().Factories, f => quote {
+            object $(LNode.Id("Get_" + f.Key.Name))() => 
+                $(LNode.Literal(f.Value.Body.ToString()));
+        }));
     }
 }
