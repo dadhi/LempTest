@@ -38,7 +38,7 @@ compileTime
 
     var factories = ServiceRegistrations.CreateAndConfigure().Factories;
     var getMethods = factories.Select(f => quote {
-        object $(LNode.Id("Get_" + f.Key.Name))() => 
+        object $(LNode.Id("Get_" + f.Key.Name))(IResolver r) => 
             $(LNode.Literal(f.Value.Body.ToString()));
     });
 }

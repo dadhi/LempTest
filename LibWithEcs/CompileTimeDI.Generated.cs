@@ -30,6 +30,6 @@ namespace LibWithEcs
 {
     partial class CompileTimeDI
     {
-        object Get_A() => "new A()";
+        object Get_A(IResolver r) => "new A()";
     }
 }
