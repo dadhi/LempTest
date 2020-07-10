@@ -69,11 +69,13 @@ compileTime
     var factories = ServiceRegistrations.CreateAndConfigure().Factories;
 
     var ecs = Loyc.Ecs.EcsLanguageService.Value;
-    var getMethods = factories.Select(f => quote {
-        object $(LNode.Id("Get_" + f.Key.Name))(IResolver r) => 
+    var getMethods = factories.Select((f, i) => quote {
+        object $(LNode.Id(GetMethodName(f.Key, i)))(IResolver r) => 
             $(ecs.ParseSingle(f.Value.Body.ToString() + ';', inputType: ParsingMode.Expressions));
             // $(..ecs.Parse(f.Value.Body.ToString() + ';')); // note: works too, the ';' at the end required for parser to make it a statement
     });
+
+    string GetMethodName(Type t, int i) => "Get_" + t.Name + "_" + i;
 }
 
 namespace LibWithEcs
@@ -82,8 +84,16 @@ namespace LibWithEcs
     {
         partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated) 
         {
-            // precompute(
-            // );
+            precompute(
+                factories.Select((f, i) => quote {
+                    if (serviceType == $(ecs.ParseSingle("typeof(" + f.Key.Name + ");")))
+                    {
+                        service = $(LNode.Id(GetMethodName(f.Key, i)))(this);
+                        isGenerated = true;
+                        return;
+                    }
+                })
+            );
         }
 
         precompute(getMethods);

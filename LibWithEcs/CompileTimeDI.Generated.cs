@@ -60,11 +60,14 @@ namespace LibWithEcs
     {
         partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated)
         {
-        	// precompute(
-        	// );
-         }
+            if (serviceType == typeof(A)) {
+                service = Get_A_0(this);
+                isGenerated = true;
+                return;
+            }
+        }
     
-        object Get_A(IResolver r) => new A();
+        object Get_A_0(IResolver r) => new A();
     }
 
     public static class Resolver
