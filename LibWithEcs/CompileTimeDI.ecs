@@ -31,7 +31,6 @@
     }
 }
 
-// returns `di`
 includeFile("ServiceRegistrations.ecs.include");
 compileTime 
 {
