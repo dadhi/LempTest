@@ -46,6 +46,7 @@
 
                 if (Factories.TryGetValue(serviceType, out var facExpr))
                 {
+                    // todo: @feature insert caching of compiled delegate here
                     var fDelegate = facExpr.Compile();
                     return fDelegate(this);
                 }
@@ -57,8 +58,6 @@
         }
     }
 }
-
-
 
 includeFile("ServiceRegistrations.ecs.include");
 compileTime 
