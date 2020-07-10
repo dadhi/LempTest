@@ -68,7 +68,7 @@ compileTime
 
     var ecs = Loyc.Ecs.EcsLanguageService.Value;
     var getMethods = factories.Select(f => quote {
-        object $(LNode.Id("Get_" + f.Key))(IResolver r) =>
+        object $(LNode.Id("Get_" + f.Key.Name))(IResolver r) =>
             $(..ecs.Parse(f.Value.Body.ToString()));
     });
 }

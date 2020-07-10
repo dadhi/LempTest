@@ -64,7 +64,7 @@ namespace LibWithEcs
         	// );
          }
     
-        object Get_Submission_num1_plusA(IResolver r) => _numresult(new A());
+        object Get_A(IResolver r) => _numresult(new A());
     }
 
     public static class Resolver
