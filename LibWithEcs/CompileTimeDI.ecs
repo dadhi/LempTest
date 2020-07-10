@@ -62,14 +62,17 @@
 includeFile("ServiceRegistrations.ecs.include");
 compileTime 
 {
+    // for extension methods
     using System.Linq;
+    using Loyc.Syntax;
 
     var factories = ServiceRegistrations.CreateAndConfigure().Factories;
 
     var ecs = Loyc.Ecs.EcsLanguageService.Value;
     var getMethods = factories.Select(f => quote {
-        object $(LNode.Id("Get_" + f.Key.Name))(IResolver r) =>
-            $(..ecs.Parse(f.Value.Body.ToString() + ";"));
+        object $(LNode.Id("Get_" + f.Key.Name))(IResolver r) => 
+            $(ecs.ParseSingle(f.Value.Body.ToString() + ';', inputType: ParsingMode.Expressions));
+            // $(..ecs.Parse(f.Value.Body.ToString() + ';')); // note: works too, the ';' at the end required for parser to make it a statement
     });
 }
 
