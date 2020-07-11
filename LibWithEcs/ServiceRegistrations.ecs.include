@@ -1,6 +1,6 @@
 compileTime 
 {
-    // NOTE: Here is the place the User code
+    // NOTE: Here is the place for the User code
     public static class ServiceRegistrations 
     {
         public static CompileTimeDI CreateAndConfigure() 
