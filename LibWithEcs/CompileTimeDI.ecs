@@ -85,8 +85,7 @@ namespace LibWithEcs
         partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated) 
         {
             precompute(factories.Select((f, i) => quote {
-                if (serviceType == typeof($(LNode.Id(typeof(A).FullName))))
-                // if (serviceType == $(ecs.ParseSingle("typeof(" + f.Key.Name + ");")))
+                if (serviceType == typeof($(LNode.Id(f.Key.Name))))
                 {
                     service = $(LNode.Id(GetMethodName(f.Key, i)))(this);
                     isGenerated = true;
