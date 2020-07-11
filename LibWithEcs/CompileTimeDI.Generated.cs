@@ -60,7 +60,7 @@ namespace LibWithEcs
     {
         partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated)
         {
-            if (serviceType == typeof(@__empty__ .A)) {
+            if (serviceType == typeof(Submission_num1_plusA)) {
                 service = Get_A_0(this);
                 isGenerated = true;
                 return;
