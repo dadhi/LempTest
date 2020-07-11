@@ -9,6 +9,9 @@
         <Generated Include="**\*.Generated.cs" />
         <None Include="**\*.ecs.include" />
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\AnotherLib\AnotherLib.csproj" />
+    </ItemGroup>
     <Target Name="LempTransform" BeforeTargets="BeforeBuild">
         <Exec WorkingDirectory="$(ProjectDir)" Command="dotnet lemp %(EcsFile.Identity) --outext=.Generated.cs --o-indent-spaces=4" />
     </Target>

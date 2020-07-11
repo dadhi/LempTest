@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LempDotnetTool", "LempDotne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibWithEcs", "LibWithEcs\LibWithEcs.csproj", "{7BB4412D-688A-4425-A591-51AB197850EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnotherLib", "AnotherLib\AnotherLib.csproj", "{4DA793FA-886B-4228-9779-7104911E4B0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{7BB4412D-688A-4425-A591-51AB197850EB}.Release|x64.Build.0 = Release|Any CPU
 		{7BB4412D-688A-4425-A591-51AB197850EB}.Release|x86.ActiveCfg = Release|Any CPU
 		{7BB4412D-688A-4425-A591-51AB197850EB}.Release|x86.Build.0 = Release|Any CPU
+		{4DA793FA-886B-4228-9779-7104911E4B0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DA793FA-886B-4228-9779-7104911E4B0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DA793FA-886B-4228-9779-7104911E4B0C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4DA793FA-886B-4228-9779-7104911E4B0C}.Debug|x64.Build.0 = Debug|Any CPU
+		{4DA793FA-886B-4228-9779-7104911E4B0C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4DA793FA-886B-4228-9779-7104911E4B0C}.Debug|x86.Build.0 = Debug|Any CPU
+		{4DA793FA-886B-4228-9779-7104911E4B0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DA793FA-886B-4228-9779-7104911E4B0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DA793FA-886B-4228-9779-7104911E4B0C}.Release|x64.ActiveCfg = Release|Any CPU
+		{4DA793FA-886B-4228-9779-7104911E4B0C}.Release|x64.Build.0 = Release|Any CPU
+		{4DA793FA-886B-4228-9779-7104911E4B0C}.Release|x86.ActiveCfg = Release|Any CPU
+		{4DA793FA-886B-4228-9779-7104911E4B0C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

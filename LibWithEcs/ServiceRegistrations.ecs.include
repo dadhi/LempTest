@@ -8,6 +8,7 @@ compileTime
             var di = new CompileTimeDI();
             
             di.Register<A>(r => new A());
+            di.Register<A>(r => new AnotherLib.TypeFromAnotherAssembly());
             
             return di;
         }
