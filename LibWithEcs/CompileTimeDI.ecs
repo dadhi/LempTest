@@ -75,17 +75,26 @@ compileTime
             // $(..ecs.Parse(f.Value.Body.ToString() + ';')); // note: works too, the ';' at the end required for parser to make it a statement
     });
 
+    var usings = factories.Keys
+        .Select(x => x.Namespace).Where(n => !string.IsNullOrEmpty(n)).Distinct()
+        .Select(n => ecs.Parse("using " + n + ';'))
+        .SelectMany(n => n);
+
     string GetMethodName(Type t, int i) => "Get_" + t.Name + "_" + i;
 }
 
 namespace LibWithEcs
 {
+    precompute(usings);
+
     partial class CompileTimeDI
     {
         partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated) 
         {
             precompute(factories.Select((f, i) => quote {
-                if (serviceType == typeof($(LNode.Id(f.Key.Name))))
+                if (serviceType == typeof(
+                    $(LNode.Id(f.Key.Name)))
+                )
                 {
                     service = $(LNode.Id(GetMethodName(f.Key, i)))(this);
                     isGenerated = true;

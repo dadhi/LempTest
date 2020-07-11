@@ -56,14 +56,25 @@ namespace LibWithEcs
 }
 namespace LibWithEcs
 {
+    using AnotherLib;
     partial class CompileTimeDI
     {
         partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated)
         {
-            null;
+            if (serviceType == typeof(A)) {
+                service = Get_A_0(this);
+                isGenerated = true;
+                return;
+            }
+            if (serviceType == typeof(TypeFromAnotherAssembly)) {
+                service = Get_TypeFromAnotherAssembly_1(this);
+                isGenerated = true;
+                return;
+            }
         }
     
-        null;
+        object Get_A_0(IResolver r) => new A();
+        object Get_TypeFromAnotherAssembly_1(IResolver r) => new TypeFromAnotherAssembly();
     }
 
     public static class Resolver

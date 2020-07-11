@@ -1,4 +1,4 @@
-namespace LibWithEcs
+namespace AnotherLib
 {
     public class TypeFromAnotherAssembly
     {
