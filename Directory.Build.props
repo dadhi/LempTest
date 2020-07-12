@@ -1,0 +1,7 @@
+<Project>
+    <PropertyGroup>
+        <Authors>Maksim Volkau</Authors>
+        <Copyright>Copyright © 2020 Maksim Volkau</Copyright>
+        <LangVersion>Latest</LangVersion>
+    </PropertyGroup>
+</Project>
