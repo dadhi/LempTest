@@ -58,6 +58,9 @@
 }
 
 includeFile("ServiceRegistrations.ecs.include");
+
+// uncomment for testing 
+// includeFile(@".\\Test\\ServiceRegistrations.ecs.include");
 compileTime 
 {
     // for extension methods
