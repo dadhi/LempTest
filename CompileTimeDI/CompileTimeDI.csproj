@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <NoWarn>$(NoWarn);CS7021</NoWarn>
+        <NoWarn>$(NoWarn);CS1591:CS7021</NoWarn>
     </PropertyGroup>
     <!--Packages details-->
     <PropertyGroup>
@@ -23,21 +23,25 @@
         <RepositoryType>git</RepositoryType>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <!-- <GenerateDocumentationFile>true</GenerateDocumentationFile> -->
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageOutputPath>..\.nupkg</PackageOutputPath>
         <DebugType>embedded</DebugType>
         <IncludeSymbols>false</IncludeSymbols>
-        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+        <!-- <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild> -->
     </PropertyGroup>
     <ItemGroup>
         <None Include="..\LICENSE.txt" Pack="true" PackagePath="license.txt" Visible="false" />
     </ItemGroup>
     <ItemGroup>
         <EcsFile Include="**\*.ecs" />
-        <!--Defining the collection so it could be cleanup later via the CleanupGenerated target-->
-        <Generated Include="**\*.Genennrated.cs" />
-        <None Include="**\*.ecs.include" />
+        <Generated Include="**\*.Generated.cs" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(Configuration)' == 'Release' ">
+        <None Include=".\ServiceRegistrations.ecs.include" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <None Include=".\Test\ServiceRegistrations.ecs.include" />
     </ItemGroup>
     <ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
         <ProjectReference Include="..\AnotherLib\AnotherLib.csproj" />

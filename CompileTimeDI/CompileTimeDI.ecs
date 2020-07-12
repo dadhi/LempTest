@@ -63,7 +63,11 @@
     // }
 }
 
+#if DEBUG
+includeFile(@".\\Test\\ServiceRegistrations.ecs.include");
+#else
 includeFile("ServiceRegistrations.ecs.include");
+#endif
 compileTime 
 {
     // for extension methods

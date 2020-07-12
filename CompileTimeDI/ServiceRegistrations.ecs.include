@@ -1,21 +1,23 @@
 compileTime 
 {
-    ##reference(precompute(System.IO.Path.Combine(#get(ProjectDir).Replace("___", "\\"), @"..\AnotherLib\bin\Debug\netstandard2.0\AnotherLib.dll")));
+    // NOTE: This is how you can reference the assembly with the services 
+    //##reference(precompute(System.IO.Path.Combine(#get(ProjectDir).Replace("___", "\\"), @"..\AnotherLib\bin\Debug\netstandard2.0\AnotherLib.dll")));
 
-    using AnotherLib;
-    using AnotherLib.Experimental;
+    // NOTE: Add the usings for your services here
+    // using AnotherLib;
+    // using AnotherLib.Experimental;
 
-    // NOTE: Here is the place for the User code
+    // NOTE: Put your registrations here
     public static class ServiceRegistrations 
     {
         public static CompileTimeDI CreateAndConfigure() 
         {
             var di = new CompileTimeDI();
             
-            di.Register<A>(r => new A());
-            di.Register<B>(r => new B());
-
-            di.Register<X>(r => new X(new A(), new B()));
+            // Example resgitrations:
+            // di.Register<A>(r => new A());
+            // di.Register<B>(r => new B());
+            // di.Register<X>(r => new X(new A(), new B()));
 
             return di;
         }
