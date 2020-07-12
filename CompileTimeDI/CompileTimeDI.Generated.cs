@@ -55,31 +55,10 @@ namespace CompileTimeDI
 }
 namespace CompileTimeDI
 {
-    using AnotherLib;
-    using AnotherLib.Experimental;
     partial class CompileTimeDI
     {
         partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated)
-        {
-            if (serviceType == typeof(A)) {
-                service = Get_A_0(this);
-                isGenerated = true;
-                return;
-            }
-            if (serviceType == typeof(B)) {
-                service = Get_B_1(this);
-                isGenerated = true;
-                return;
-            }
-            if (serviceType == typeof(X)) {
-                service = Get_X_2(this);
-                isGenerated = true;
-                return;
-            }
-        }
+        { }
     
-        object Get_A_0(IResolver r) => new A();
-        object Get_B_1(IResolver r) => new B();
-        object Get_X_2(IResolver r) => new X(new A(), new B());
     }
 }
