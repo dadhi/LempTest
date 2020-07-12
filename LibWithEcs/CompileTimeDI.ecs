@@ -10,8 +10,6 @@
     using System.Linq.Expressions;
     namespace LibWithEcs
     {
-        public class A {} // todo: @test just for test here, move to another assembly 
-
         public interface IResolver 
         {
             object Resolve(Type serviceType);
@@ -57,6 +55,12 @@
             partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated);
         }
     }
+
+    // todo: @note extensions method are not supported in compile time
+    // public static class Resolver 
+    // {
+    //     public static T Resolve<T>(this IResolver r) => (T)r.Resolve(typeof(T));
+    // }
 }
 
 includeFile("ServiceRegistrations.ecs.include");
@@ -71,16 +75,24 @@ compileTime
     var ecs = Loyc.Ecs.EcsLanguageService.Value;
     var getMethods = factories.Select((f, i) => quote {
         object $(LNode.Id(GetMethodName(f.Key, i)))(IResolver r) => 
-            $(ecs.ParseSingle(f.Value.Body.ToString() + ';', inputType: ParsingMode.Expressions));
-            // $(..ecs.Parse(f.Value.Body.ToString() + ';')); // note: works too, the ';' at the end required for parser to make it a statement
+            $(Parse(ExpressionToString(f.Value.Body)));
     });
 
     var usings = factories.Keys
         .Select(x => x.Namespace).Where(n => !string.IsNullOrEmpty(n)).Distinct()
-        .Select(n => ecs.Parse("using " + n + ';'))
-        .SelectMany(n => n);
+        .Select(n => quote { 
+            using $(Parse(n)); 
+        });
 
     string GetMethodName(Type t, int i) => "Get_" + t.Name + "_" + i;
+
+    // primitive implementation for demonstration purposes
+    string ExpressionToString(Expression e) => e.ToString();
+
+    // `;` is required at the end
+    LNode Parse(string expr) => 
+        ecs.ParseSingle(expr + ';', inputType: ParsingMode.Expressions); 
+        //ecs.Parse(f.Value.Body.ToString() + ';'); // works too but requires spread `$(.. Parse(x))` because returns the node list
 }
 
 namespace LibWithEcs
@@ -92,9 +104,7 @@ namespace LibWithEcs
         partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated) 
         {
             precompute(factories.Select((f, i) => quote {
-                if (serviceType == typeof(
-                    $(LNode.Id(f.Key.Name)))
-                )
+                if (serviceType == typeof($(LNode.Id(f.Key.Name))))
                 {
                     service = $(LNode.Id(GetMethodName(f.Key, i)))(this);
                     isGenerated = true;
@@ -104,10 +114,5 @@ namespace LibWithEcs
         }
 
         precompute(getMethods);
-    }
-
-    public static class Resolver 
-    {
-        public static T Resolve<T>(this IResolver r) => (T)r.Resolve(typeof(T));
     }
 }

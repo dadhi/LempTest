@@ -2,6 +2,9 @@ compileTime
 {
     #r "c:\Code\LempTemplatingTest\AnotherLib\bin\Debug\netstandard2.0\AnotherLib.dll"
 
+    using AnotherLib;
+    using AnotherLib.Experimental;
+
     // NOTE: Here is the place for the User code
     public static class ServiceRegistrations 
     {
@@ -10,7 +13,9 @@ compileTime
             var di = new CompileTimeDI();
             
             di.Register<A>(r => new A());
-            di.Register<AnotherLib.TypeFromAnotherAssembly>(r => new AnotherLib.TypeFromAnotherAssembly());
+            di.Register<B>(r => new B());
+
+            di.Register<X>(r => new X(new A(), new B()));
 
             return di;
         }

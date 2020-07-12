@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 namespace LibWithEcs
 {
-    public class A { }	// todo: @test just for test here, move to another assembly 
     public interface IResolver
     {
         object Resolve(Type serviceType);
@@ -54,9 +53,16 @@ namespace LibWithEcs
         partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated);
     }
 }
+
+	// todo: @note extensions method are not supported in compile time
+	// public static class Resolver 
+	// {
+	//     public static T Resolve<T>(this IResolver r) => (T)r.Resolve(typeof(T));
+	// }
 namespace LibWithEcs
 {
     using AnotherLib;
+    using AnotherLib.Experimental;
     partial class CompileTimeDI
     {
         partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated)
@@ -66,19 +72,20 @@ namespace LibWithEcs
                 isGenerated = true;
                 return;
             }
-            if (serviceType == typeof(TypeFromAnotherAssembly)) {
-                service = Get_TypeFromAnotherAssembly_1(this);
+            if (serviceType == typeof(B)) {
+                service = Get_B_1(this);
+                isGenerated = true;
+                return;
+            }
+            if (serviceType == typeof(X)) {
+                service = Get_X_2(this);
                 isGenerated = true;
                 return;
             }
         }
     
         object Get_A_0(IResolver r) => new A();
-        object Get_TypeFromAnotherAssembly_1(IResolver r) => new TypeFromAnotherAssembly();
-    }
-
-    public static class Resolver
-    {
-        public static T Resolve<T>(this IResolver r) => (T) r.Resolve(typeof(T));
+        object Get_B_1(IResolver r) => new B();
+        object Get_X_2(IResolver r) => new X(new A(), new B());
     }
 }
