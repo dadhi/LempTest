@@ -55,19 +55,9 @@
             partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated);
         }
     }
-
-    // todo: @note extensions method are not supported in compile time
-    // public static class Resolver 
-    // {
-    //     public static T Resolve<T>(this IResolver r) => (T)r.Resolve(typeof(T));
-    // }
 }
 
-#if DEBUG
-includeFile(@".\\Test\\ServiceRegistrations.ecs.include");
-#else
 includeFile("ServiceRegistrations.ecs.include");
-#endif
 compileTime 
 {
     // for extension methods
