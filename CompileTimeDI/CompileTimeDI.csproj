@@ -3,13 +3,36 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <NoWarn>$(NoWarn);CS7021</NoWarn>
     </PropertyGroup>
+    <!--Packages details-->
     <PropertyGroup>
         <VersionPrefix>1.0.0</VersionPrefix>
         <VersionSuffix>preview-01</VersionSuffix>
-        <PackageOutputPath>..\.nupkg</PackageOutputPath>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Description>Proof-of-concept compile-time Dependency Injection container using LeMP code-generation from the ECSharp</Description>
+        <PackageTags>IoC DI InversionOfControl DependencyInjection DryIoc CompileTime LeMP ECSharp Loyc T4 CodeGeneration Macros</PackageTags>
+        <PackageReleaseNotes>
+            <![CDATA[
+            Test release
+]]>
+        </PackageReleaseNotes>
+        <NeutralLanguage>en-US</NeutralLanguage>
+        <PackageLicense>https://github.com/dadhi/LempTest/blob/master/LICENSE.txt</PackageLicense>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageProjectUrl>https://github.com/dadhi/LempTest</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/dadhi/LempTest.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageOutputPath>..\.nupkg</PackageOutputPath>
+        <DebugType>embedded</DebugType>
+        <IncludeSymbols>false</IncludeSymbols>
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="..\LICENSE.txt" Pack="true" PackagePath="license.txt" Visible="false" />
+    </ItemGroup>
     <ItemGroup>
         <EcsFile Include="**\*.ecs" />
         <!--Defining the collection so it could be cleanup later via the CleanupGenerated target-->

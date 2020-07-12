@@ -1,6 +1,6 @@
-# Proof-of-concept compile-time Dependency Injection container using LeMP code-generation from the ESharp
+# Proof-of-concept compile-time Dependency Injection container using LeMP code-generation from the ECSharp
 
-## LeMP and ESharp
+## LeMP and ECSharp
 
 The project site http://ecsharp.net/
 
