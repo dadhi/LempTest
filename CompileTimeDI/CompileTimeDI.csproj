@@ -18,7 +18,7 @@
         <PropertyGroup>
             <ProjectDirEscaped>$(ProjectDir.Replace('\', '___'))</ProjectDirEscaped>
         </PropertyGroup>
-        <!-- <Message Text="Project with escaped slashes $(ProjectDirEscaped)" Importance="high"/> -->
+        <!-- <Message Text="Project with escaped slashes is $(ProjectDirEscaped)" Importance="high"/> -->
         <Exec WorkingDirectory="$(ProjectDir)" 
             Command="dotnet lemp %(EcsFile.Identity) --outext=.Generated.cs --o-indent-spaces=4 --set:ProjectDir=@&quot;$(ProjectDirEscaped)&quot;" />
     </Target>

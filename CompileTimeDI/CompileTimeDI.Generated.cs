@@ -6,7 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-namespace LibWithEcs
+namespace CompileTimeDI
 {
     public interface IResolver
     {
@@ -59,7 +59,7 @@ namespace LibWithEcs
 	// {
 	//     public static T Resolve<T>(this IResolver r) => (T)r.Resolve(typeof(T));
 	// }
-namespace LibWithEcs
+namespace CompileTimeDI
 {
     using AnotherLib;
     using AnotherLib.Experimental;

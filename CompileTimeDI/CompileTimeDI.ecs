@@ -8,7 +8,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
-    namespace LibWithEcs
+    namespace CompileTimeDI
     {
         public interface IResolver 
         {
@@ -95,7 +95,7 @@ compileTime
         //ecs.Parse(f.Value.Body.ToString() + ';'); // works too but requires spread `$(.. Parse(x))` because returns the node list
 }
 
-namespace LibWithEcs
+namespace CompileTimeDI
 {
     precompute(usings);
 
