@@ -30,8 +30,11 @@
         <IncludeSymbols>false</IncludeSymbols>
         <!-- <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild> -->
     </PropertyGroup>
-    <ItemGroup>
-        <None Include="..\LICENSE.txt" Pack="true" PackagePath="license.txt" Visible="false" />
+    <ItemGroup Label="Packaging">
+        <None Include="..\LICENSE.txt" Pack="true"          PackagePath="license.txt" Visible="false" />
+        <Content Include="CompileTimeDI.targets"            PackagePath="build\CompileTimeDI.targets" />
+        <Content Include="CompileTimeDI.ecs"                PackagePath="content\CompileTimeDI.ecs" />
+        <Content Include="ServiceRegistrations.ecs.include" PackagePath="content\ServiceRegistrations.ecs.include" />
     </ItemGroup>
     <ItemGroup>
         <EcsFile Include="**\*.ecs" />
