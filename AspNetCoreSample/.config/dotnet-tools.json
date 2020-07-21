@@ -2,10 +2,10 @@
   "version": 1,
   "isRoot": true,
   "tools": {
-    "lempdotnettool": {
-      "version": "1.0.0-preview-01",
+    "dotnetsay": {
+      "version": "2.1.4",
       "commands": [
-        "lemp"
+        "dotnetsay"
       ]
     }
   }

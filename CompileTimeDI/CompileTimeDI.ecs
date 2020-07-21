@@ -5,28 +5,29 @@
 // The code is auto-generated from the *.ecs file
 // All changes done to this .cs file will be lost on the next generate
 //
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
+    using System (.Collections (.Generic, .Concurrent), .Linq.Expressions,);
     namespace CompileTimeDI
     {
         public interface IResolver 
         {
             object Resolve(Type serviceType);
+            TService Resolve<TService>();
         }
 
         public partial class CompileTimeDI : IResolver
         {
-            public Dictionary<Type, Expression<Func<IResolver, object>>> Factories;
+            public ConcurrentDictionary<Type, Expression<Func<IResolver, object>>> Registrations;
+            public ConcurrentDictionary<Type, Func<IResolver, object>>             DelegateCache;
 
             public this() 
             {
-                Factories = new Dictionary<Type, Expression<Func<IResolver, object>>>();
+                Registrations = new ConcurrentDictionary<Type, Expression<Func<IResolver, object>>>();
+                DelegateCache = new ConcurrentDictionary<Type, Func<IResolver, object>>();
             }
 
             public void Register<T>(Expression<Func<IResolver, object>> factory)
             {
-                Factories.Add(typeof(T), factory);
+                Registrations.TryAdd(typeof(T), factory);
             }
 
             public class Exception : InvalidOperationException 
@@ -42,40 +43,42 @@
                 if (isGenerated) 
                     return service;
 
-                if (Factories.TryGetValue(serviceType, out var facExpr))
+                if (DelegateCache.TryGetValue(serviceType, out var facDel)) 
+                    return facDel(this);
+
+                if (Registrations.TryGetValue(serviceType, out var facExpr))
                 {
-                    // todo: @feature insert caching of compiled delegate here
-                    var fDelegate = facExpr.Compile();
+                    var fDelegate = DelegateCache.GetOrAdd(serviceType, _ => facExpr.Compile());
                     return fDelegate(this);
                 }
 
                 throw new Exception($"Unable to resolve `${serviceType}`");
             }
 
+            public TService Resolve<TService>() => (TService)Resolve(typeof(TService));
+
             partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated);
         }
     }
 }
 
-includeFile("ServiceRegistrations.ecs.include");
-
 // uncomment for testing 
-// includeFile(@".\\Test\\ServiceRegistrations.ecs.include");
+// includeFile("ServiceRegistrations.ecs.include");
+includeFile(@".\\Test\\ServiceRegistrations.ecs.include");
 compileTime 
 {
-    // for extension methods
-    using System.Linq;
+    using System (.Linq, .Text);
     using Loyc.Syntax;
 
-    var factories = ServiceRegistrations.CreateAndConfigure().Factories;
+    var registrations = ServiceRegistrations.CreateAndConfigure().Registrations;
 
     var ecs = Loyc.Ecs.EcsLanguageService.Value;
-    var getMethods = factories.Select((f, i) => quote {
-        object $(LNode.Id(GetMethodName(f.Key, i)))(IResolver r) => 
-            $(Parse(ExpressionToString(f.Value.Body)));
+    var getMethods = registrations.Select((r, i) => quote {
+        object $(LNode.Id(GetMethodName(r.Key, i)))(IResolver r) => 
+            $(Parse(ExpressionToCSharp(r.Value.Body)));
     });
 
-    var usings = factories.Keys
+    var usings = registrations.Keys
         .Select(x => x.Namespace).Where(n => !string.IsNullOrEmpty(n)).Distinct()
         .Select(n => quote { 
             using $(Parse(n)); 
@@ -84,12 +87,85 @@ compileTime
     string GetMethodName(Type t, int i) => "Get_" + t.Name + "_" + i;
 
     // primitive implementation for demonstration purposes
-    string ExpressionToString(Expression e) => e.ToString();
+    string ExpressionToCSharp(Expression e) 
+    {
+        if (e is NewExpression n)
+        {
+            var s = new StringBuilder();
+            s.Append("new ").Append(TypeToCSharp(n.Type, true)).Append('(');
+            var args = n.Arguments;
+            for (var i = 0; i < args.Count; ++i)
+                (i == 0 ? s : s.Append(", ")).Append(ExpressionToCSharp(args[i]));
+            return s.Append(')').ToString();
+        }
+
+        if (e is MethodCallExpression m)
+        {
+            var s = new StringBuilder();
+            if (m.Object != null)
+                s.Append(ExpressionToCSharp(m.Object)).Append('.');
+
+            s.Append(m.Method.Name);
+            if (m.Method.IsGenericMethod)
+            {
+                s.Append("<");
+                var typeArgs = m.Method.GetGenericArguments();
+                for (var i = 0; i < typeArgs.Length; ++i)
+                    (i == 0 ? s : s.Append(", ")).Append(TypeToCSharp(typeArgs[i], true));
+                s.Append(">");
+            }
+            
+            s.Append('(');
+            var args = m.Arguments;
+            for (var i = 0; i < args.Count; ++i)
+                (i == 0 ? s : s.Append(", ")).Append(ExpressionToCSharp(args[i]));
+            return s.Append(')').ToString();
+        }
+
+        return e.ToString();
+    } 
 
     // `;` is required at the end
     LNode Parse(string expr) => 
         ecs.ParseSingle(expr + ';', inputType: ParsingMode.Expressions); 
-        //ecs.Parse(f.Value.Body.ToString() + ';'); // works too but requires spread `$(.. Parse(x))` because returns the node list
+        //ecs.Parse(r.Value.Body.ToString() + ';'); // works too but requires spread `$(.. Parse(x))` because returns the node list
+
+    public string TypeToCSharp(Type type, bool stripNamespace = false, Func<Type, string, string> printType = null) 
+    {
+        var isArray = type.IsArray;
+        if (isArray)
+            type = type.GetElementType();
+
+        var typeString = stripNamespace ? type.Name : type.FullName ?? type.Name;
+        typeString = typeString.Replace('+', '.');
+
+        if (!type.IsGenericType)
+            return printType?.Invoke(type, typeString) ?? typeString;
+
+        var s = new StringBuilder(typeString.Substring(0, typeString.IndexOf('`')));
+        s.Append('<');
+
+        var genericArgs = type.GetGenericArguments();
+        if (type.IsGenericTypeDefinition)
+            s.Append(',', genericArgs.Length - 1);
+        else
+        {
+            for (var i = 0; i < genericArgs.Length; i++)
+            {
+                if (i > 0) s.Append(", ");
+                s.Append(TypeToCSharp(genericArgs[i], stripNamespace, printType));
+            }
+        }
+
+        s.Append('>');
+
+        if (isArray)
+            s.Append("[]");
+
+        typeString = s.ToString();
+        return printType?.Invoke(type, typeString) ?? typeString;
+    }
+
 }
 
 namespace CompileTimeDI
@@ -100,10 +176,10 @@ namespace CompileTimeDI
     {
         partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated) 
         {
-            precompute(factories.Select((f, i) => quote {
-                if (serviceType == typeof($(LNode.Id(f.Key.Name))))
+            precompute(registrations.Select((r, i) => quote {
+                if (serviceType == typeof($(LNode.Id(r.Key.Name))))
                 {
-                    service = $(LNode.Id(GetMethodName(f.Key, i)))(this);
+                    service = $(LNode.Id(GetMethodName(r.Key, i)))(this);
                     isGenerated = true;
                     return;
                 }

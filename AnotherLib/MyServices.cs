@@ -17,10 +17,14 @@ namespace AnotherLib.Experimental
     {
         public A A;
         public B B;
-        public X(A a, B b) 
+        public Y Y;
+        public X(A a, B b, Y y) 
         {
             A = a;
             B = b;
+            Y = y;
         }
     }
+
+    public class Y {}
 }

@@ -22,7 +22,7 @@
             <ProjectDirEscaped>$(MSBuildProjectDirectory.Replace('\', '___'))</ProjectDirEscaped>
         </PropertyGroup>
         <Exec WorkingDirectory="$(MSBuildProjectDirectory)" 
-            Command="dotnet lemp %(EcsFile.Identity) --outext=.Generated.cs --o-indent-spaces=4 --set:ProjectDir=@&quot;$(ProjectDirEscaped)&quot;" />
+            Command="dotnet lemp %(EcsFile.Identity) --outext=.Generated.cs --o-indent-spaces=4 --set:ProjectDirEscaped=@&quot;$(ProjectDirEscaped)&quot;" />
     </Target>
     <ItemGroup>
         <EcsFile Include="**\*.ecs" />
