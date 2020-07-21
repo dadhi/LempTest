@@ -1,9 +1,9 @@
 <Project
     xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <Target Name="CopyEcsToProject" BeforeTargets="Build">
-        <Message Text="Copying .ecs template(s) to the project..." Importance="high" />
-        <Message Text="Targets dir: $(MSBuildThisFileDirectory)"   Importance="high"/>
-        <Message Text="Project dir: $(MSBuildProjectDirectory)"    Importance="high"/>
+        <Message Text="Targets dir: $(MSBuildThisFileDirectory)" Importance="high"/>
+        <Message Text="Project dir: $(MSBuildProjectDirectory)"  Importance="high"/>
+        <Message Text="Copying .ecs template(s) and LempDotnetTool manifest to the project..." Importance="high" />
         <Copy 
           SourceFiles="$(MSBuildThisFileDirectory)..\content\CompileTimeDI.ecs" 
           DestinationFiles="$(MSBuildProjectDirectory)\CompileTimeDI.ecs" 
@@ -12,6 +12,12 @@
           SourceFiles="$(MSBuildThisFileDirectory)..\content\ServiceRegistrations.ecs.include" 
           DestinationFiles="$(MSBuildProjectDirectory)\ServiceRegistrations.ecs.include" 
           SkipUnchangedFiles="true"/>
+        <Copy 
+          SourceFiles="$(MSBuildThisFileDirectory)..\content\dotnet-tools.json" 
+          DestinationFiles="$(MSBuildProjectDirectory)\.config\dotnet-tools.json" 
+          SkipUnchangedFiles="true"/>
+        <Exec WorkingDirectory="$(MSBuildProjectDirectory)" 
+            Command='dotnet tool install --ignore-failed-sources --tool-manifest "$(MSBuildProjectDirectory)\.config\dotnet-tools.json" --version 1.0.0-preview-01 LempDotnetTool' />
         <PropertyGroup>
             <ProjectDirEscaped>$(MSBuildProjectDirectory.Replace('\', '___'))</ProjectDirEscaped>
         </PropertyGroup>

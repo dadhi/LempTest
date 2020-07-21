@@ -6,12 +6,12 @@
     <!--Packages details-->
     <PropertyGroup>
         <VersionPrefix>1.0.0</VersionPrefix>
-        <VersionSuffix>preview-01</VersionSuffix>
+        <VersionSuffix>preview-04</VersionSuffix>
         <Description>Proof-of-concept compile-time Dependency Injection container using LeMP code-generation from the ECSharp</Description>
         <PackageTags>IoC DI InversionOfControl DependencyInjection DryIoc CompileTime LeMP ECSharp Loyc T4 CodeGeneration Macros</PackageTags>
         <PackageReleaseNotes>
             <![CDATA[
-            Test release
+            Proof-of-concept release
 ]]>
         </PackageReleaseNotes>
         <NeutralLanguage>en-US</NeutralLanguage>
@@ -33,6 +33,7 @@
     <ItemGroup Label="Packaging">
         <None Include="..\LICENSE.txt" Pack="true"          PackagePath="license.txt" Visible="false" />
         <Content Include="CompileTimeDI.targets"            PackagePath="build\CompileTimeDI.targets" />
+        <Content Include=".\.config\dotnet-tools.json"      PackagePath="content\dotnet-tools.json" />
         <Content Include="CompileTimeDI.ecs"                PackagePath="content\CompileTimeDI.ecs" />
         <Content Include="ServiceRegistrations.ecs.include" PackagePath="content\ServiceRegistrations.ecs.include" />
     </ItemGroup>
