@@ -70,7 +70,7 @@ compileTime
     using System (.Linq, .Text);
     using Loyc.Syntax;
 
-    var registrations = ServiceRegistrations.CreateAndConfigure().Registrations;
+    var registrations = ConfigureDI().Registrations;
 
     var ecs = Loyc.Ecs.EcsLanguageService.Value;
     var getMethods = registrations

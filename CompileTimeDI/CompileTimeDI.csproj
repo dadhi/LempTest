@@ -7,13 +7,12 @@
         <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-        <ContentTargetFolders>content</ContentTargetFolders>
         <!-- <NoBuild>true</NoBuild> -->
     </PropertyGroup>
     <!--Packages details-->
     <PropertyGroup>
         <VersionPrefix>1.0.0</VersionPrefix>
-        <VersionSuffix>preview-12</VersionSuffix>
+        <VersionSuffix>preview-13</VersionSuffix>
         <Description>Proof-of-concept compile-time Dependency Injection container using LeMP code-generation from the ECSharp</Description>
         <PackageTags>IoC DI InversionOfControl DependencyInjection DryIoc CompileTime LeMP ECSharp Loyc T4 CodeGeneration Macros</PackageTags>
         <PackageReleaseNotes>
@@ -47,12 +46,7 @@
     <ItemGroup>
         <EcsFile Include="**\*.ecs" />
         <Generated Include="**\*.Generated.cs" />
-    </ItemGroup>
-    <ItemGroup Condition=" '$(Configuration)' == 'Release' ">
         <None Include=".\ServiceRegistrations.ecs.include" />
-    </ItemGroup>
-    <ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
-        <None Include=".\Test\ServiceRegistrations.ecs.include" />
     </ItemGroup>
     <ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
         <ProjectReference Include="..\AnotherLib\AnotherLib.csproj" />

@@ -8,5 +8,9 @@
     <PackageReference Include="CompileTimeDI" Version="1.0.0-preview-12" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AnotherLib\AnotherLib.csproj" />
+  </ItemGroup>
+
 
 </Project>

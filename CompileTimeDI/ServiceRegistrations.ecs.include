@@ -1,31 +1,27 @@
 compileTime 
 {
-    using System;
-    Console.WriteLine("Available variables via `#get(varName)`:");
-    Console.WriteLine("ProjectDirEscaped     = " + #get(ProjectDirEscaped));
-    Console.WriteLine("OutDirEscaped         = " + #get(OutDirEscaped));
-    Console.WriteLine("OutDirFullPathEscaped = " + #get(OutDirFullPathEscaped));
+    // NOTE: This is how you can reference the assembly with your types
+    // ##reference(precompute(System.IO.Path.Combine(#get(ProjectDirEscaped).Replace("___", "\\"), @"..\AnotherLib\bin\Debug\netstandard2.0\AnotherLib.dll")));
 
-    // NOTE: This is how you can reference the assembly with the services 
-    //##reference(precompute(System.IO.Path.Combine(#get(ProjectDirEscaped).Replace("___", "\\"), @"..\AnotherLib\bin\Debug\netstandard2.0\AnotherLib.dll")));
+    // Variables available via `#get(varName)`:
+    // - #get(ProjectDirEscaped))
+    // - #get(OutDirEscaped))
+    // - #get(OutDirFullPathEscaped))
 
     // NOTE: Add the usings for your services here
     // using AnotherLib;
     // using AnotherLib.Experimental;
 
     // NOTE: Put your registrations here
-    public static class ServiceRegistrations 
+    public static CompileTimeDI ConfigureDI() 
     {
-        public static CompileTimeDI CreateAndConfigure() 
-        {
-            var di = new CompileTimeDI();
-            
-            // Example resgitrations:
-            // di.Register<A>(r => new A());
-            // di.Register<B>(r => new B());
-            // di.Register<X>(r => new X(new A(), new B(), r.Resolve<Y>()));
+        var di = new CompileTimeDI();
+        
+        // NOTE: Example resgitrations:
+        // di.Register<A>(r => new A());
+        // di.Register<B>(r => new B());
+        // di.Register<X>(r => new X(new A(), new B(), r.Resolve<Y>()));
 
-            return di;
-        }
+        return di;
     }
 }
