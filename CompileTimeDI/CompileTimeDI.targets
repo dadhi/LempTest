@@ -12,7 +12,7 @@
           SourceFiles="$(MSBuildThisFileDirectory)..\content\ServiceRegistrations.ecs.include" 
           DestinationFiles="$(MSBuildProjectDirectory)\ServiceRegistrations.ecs.include" 
           SkipUnchangedFiles="true"/>
-        <Copy Condition="!Exists('$(MSBuildProjectDirectory)\dotnet-tools.json')"
+        <Copy Condition="!Exists('$(MSBuildProjectDirectory)\.config\dotnet-tools.json')"
           SourceFiles="$(MSBuildThisFileDirectory)..\content\dotnet-tools.json" 
           DestinationFiles="$(MSBuildProjectDirectory)\.config\dotnet-tools.json" 
           SkipUnchangedFiles="true"/>
