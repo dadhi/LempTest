@@ -18,7 +18,7 @@
         <PackageTags>IoC DI InversionOfControl DependencyInjection DryIoc CompileTime LeMP ECSharp Loyc T4 CodeGeneration Macros</PackageTags>
         <PackageReleaseNotes>
             <![CDATA[
-            Proof-of-concept release
+            Proof-of-concept first release
 ]]>
         </PackageReleaseNotes>
         <NeutralLanguage>en-US</NeutralLanguage>

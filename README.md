@@ -29,3 +29,9 @@ CompileTimeDI is packaged to the content-only NuGet package (it is hard).
 ## AspNetCoreSample
 
 AspNetCoreSample is an example of consuming application of CompileTimeDI package.
+
+## References
+
+- Content-based only package in csproj not in nuspec https://medium.com/@attilah/source-code-only-nuget-packages-8f34a8fb4738
+- Publishing T4 files as part of NuGet package http://diegogiacomelli.com.br/deploying-a-t4-template-with-dotnet-pack/
+- LeMP C# code-generation similar to T4 https://github.com/qwertie/ecsharp/issues/112
