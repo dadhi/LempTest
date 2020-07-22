@@ -7,6 +7,12 @@
       "commands": [
         "dotnetsay"
       ]
+    },
+    "lempdotnettool": {
+      "version": "1.0.0-preview-01",
+      "commands": [
+        "lemp"
+      ]
     }
   }
 }
