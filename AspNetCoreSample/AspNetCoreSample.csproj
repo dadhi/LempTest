@@ -4,9 +4,5 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CompileTimeDI" Version="1.0.0-preview-11" />
-  </ItemGroup>
-
 
 </Project>

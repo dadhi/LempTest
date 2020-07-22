@@ -13,7 +13,7 @@
     <!--Packages details-->
     <PropertyGroup>
         <VersionPrefix>1.0.0</VersionPrefix>
-        <VersionSuffix>preview-11</VersionSuffix>
+        <VersionSuffix>preview-12</VersionSuffix>
         <Description>Proof-of-concept compile-time Dependency Injection container using LeMP code-generation from the ECSharp</Description>
         <PackageTags>IoC DI InversionOfControl DependencyInjection DryIoc CompileTime LeMP ECSharp Loyc T4 CodeGeneration Macros</PackageTags>
         <PackageReleaseNotes>
@@ -60,7 +60,7 @@
     <Target Name="LempGenerate" BeforeTargets="BeforeBuild">
         <PropertyGroup>
             <ProjectDirEscaped>$(ProjectDir.Replace('\', '___'))</ProjectDirEscaped>
-            <OutputPathEscaped>$([System.IO.Path]::GetFullPath(OutputPath).Replace('\', '___'))</OutputPathEscaped>
+            <OutputPathEscaped>$(OutputPath.Replace('\', '___'))</OutputPathEscaped>
         </PropertyGroup>
         <!-- <Message Text="Project with escaped slashes is $(ProjectDirEscaped)" Importance="high"/> -->
         <Exec WorkingDirectory="$(ProjectDir)" 
@@ -68,19 +68,7 @@
     </Target>
     <!-- <Target Name="CleanupGenerated" AfterTargets="Clean"><Delete Files="@(Generated)" /></Target> -->
     <!-- If I want to create the full content-only package -->
-    <!-- <ItemGroup>
-        <Compile Update="@(Compile)">
-            <Pack>true</Pack>
-            <PackagePath>$(ContentTargetFolders)\cs\netstandard1.0\$(PackageId)\%(RecursiveDir)\</PackagePath>
-        </Compile>
-        <EmbeddedResource Update="@(EmbeddedResource)">
-            <Pack>true</Pack>
-            <PackagePath>$(ContentTargetFolders)\any\any\$(PackageId)\%(RecursiveDir)\</PackagePath>
-        </EmbeddedResource>
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Remove="@(PackageReference)" />
-    </ItemGroup> -->
+    <!-- <ItemGroup><Compile Update="@(Compile)"><Pack>true</Pack><PackagePath>$(ContentTargetFolders)\cs\netstandard1.0\$(PackageId)\%(RecursiveDir)\</PackagePath></Compile><EmbeddedResource Update="@(EmbeddedResource)"><Pack>true</Pack><PackagePath>$(ContentTargetFolders)\any\any\$(PackageId)\%(RecursiveDir)\</PackagePath></EmbeddedResource></ItemGroup><ItemGroup><PackageReference Remove="@(PackageReference)" /></ItemGroup> -->
     <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
     <Target Name="Compile" />
     <Target Name="CopyFilesToOutputDirectory" />

@@ -25,7 +25,7 @@
         </ItemGroup>
         <PropertyGroup>
             <ProjectDirEscaped>$(ProjectDir.Replace('\', '___'))</ProjectDirEscaped>
-            <OutputPathEscaped>$([System.IO.Path]::GetFullPath(OutputPath).Replace('\', '___'))</OutputPathEscaped>
+            <OutputPathEscaped>$(OutputPath.Replace('\', '___'))</OutputPathEscaped>
         </PropertyGroup>
         <Exec WorkingDirectory="$(ProjectDir)" 
             Command="dotnet lemp %(EcsFile.Identity) --outext=.Generated.cs --o-indent-spaces=4 --set:ProjectDirEscaped=@&quot;$(ProjectDirEscaped)&quot; --set:OutputPathEscaped=@&quot;$(OutputPathEscaped)&quot;" />
