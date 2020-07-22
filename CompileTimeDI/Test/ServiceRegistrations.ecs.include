@@ -11,10 +11,9 @@ compileTime
         public static CompileTimeDI CreateAndConfigure() 
         {
             var di = new CompileTimeDI();
-            
+
             di.Register<A>(r => new A());
             di.Register<B>(r => new B());
-
             di.Register<X>(r => new X(new A(), new B(), r.Resolve<Y>()));
 
             return di;
