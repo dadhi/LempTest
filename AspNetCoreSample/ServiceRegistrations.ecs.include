@@ -19,7 +19,6 @@ compileTime
         {
             var di = new CompileTimeDI();
             
-            // Example resgitrations:
             // di.Register<A>(r => new A());
             // di.Register<B>(r => new B());
             // di.Register<X>(r => new X(new A(), new B(), r.Resolve<Y>()));
