@@ -73,16 +73,19 @@ compileTime
     var registrations = ServiceRegistrations.CreateAndConfigure().Registrations;
 
     var ecs = Loyc.Ecs.EcsLanguageService.Value;
-    var getMethods = registrations.Select((r, i) => quote {
-        object $(LNode.Id(GetMethodName(r.Key, i)))(IResolver r) => 
-            $(Parse(ExpressionToCSharp(r.Value.Body)));
-    });
+    var getMethods = registrations
+        .Select((r, i) => quote {
+            object $(LNode.Id(GetMethodName(r.Key, i)))(IResolver r) => 
+                $(Parse(ExpressionToCSharp(r.Value.Body)));
+        })
+        .ToList();
 
     var usings = registrations.Keys
         .Select(x => x.Namespace).Where(n => !string.IsNullOrEmpty(n)).Distinct()
         .Select(n => quote { 
             using $(Parse(n)); 
-        });
+        })
+        .ToList();
 
     string GetMethodName(Type t, int i) => "Get_" + t.Name + "_" + i;
 
@@ -133,7 +136,7 @@ compileTime
     public string TypeToCSharp(Type type, bool stripNamespace = false, Func<Type, string, string> printType = null) 
     {
         var isArray = type.IsArray;
-        if (isArray)
+        if (isArray) 
             type = type.GetElementType();
 
         var typeString = stripNamespace ? type.Name : type.FullName ?? type.Name;
@@ -149,13 +152,8 @@ compileTime
         if (type.IsGenericTypeDefinition)
             s.Append(',', genericArgs.Length - 1);
         else
-        {
             for (var i = 0; i < genericArgs.Length; i++)
-            {
-                if (i > 0) s.Append(", ");
-                s.Append(TypeToCSharp(genericArgs[i], stripNamespace, printType));
-            }
-        }
+                (i == 0 ? s : s.Append(", ")).Append(TypeToCSharp(genericArgs[i], stripNamespace, printType));
 
         s.Append('>');
 
