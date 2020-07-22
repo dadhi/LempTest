@@ -1,10 +1,9 @@
 compileTime 
 {
-    using System;
-    Console.WriteLine("Available variables via `#get(varName)`:");
-    Console.WriteLine("ProjectDirEscaped     = " + #get(ProjectDirEscaped));
-    Console.WriteLine("OutDirEscaped         = " + #get(OutDirEscaped));
-    Console.WriteLine("OutDirFullPathEscaped = " + #get(OutDirFullPathEscaped));
+    // Debug things:
+    System.Console.WriteLine(#get(ProjectDirEscaped));
+    System.Console.WriteLine(#get(OutDirEscaped));
+    System.Console.WriteLine(#get(OutDirFullPathEscaped));
 
     // NOTE: This is how you can reference the assembly with the services 
     //##reference(precompute(System.IO.Path.Combine(#get(ProjectDirEscaped).Replace("___", "\\"), @"..\AnotherLib\bin\Debug\netstandard2.0\AnotherLib.dll")));

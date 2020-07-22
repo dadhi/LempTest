@@ -60,15 +60,13 @@
     <Target Name="LempGenerate" BeforeTargets="BeforeBuild">
         <PropertyGroup>
             <ProjectDirEscaped>$(ProjectDir.Replace('\', '___'))</ProjectDirEscaped>
-            <OutputPathEscaped>$(OutputPath.Replace('\', '___'))</OutputPathEscaped>
+            <OutDirEscaped>$(OutDir.Replace('\', '___'))</OutDirEscaped>
+            <OutDirFullPathEscaped>$([System.IO.Path]::GetFullPath(OutDir).Replace('\', '___'))</OutDirFullPathEscaped>
         </PropertyGroup>
-        <!-- <Message Text="Project with escaped slashes is $(ProjectDirEscaped)" Importance="high"/> -->
         <Exec WorkingDirectory="$(ProjectDir)" 
-            Command="dotnet lemp %(EcsFile.Identity) --outext=.Generated.cs --o-indent-spaces=4 --set:ProjectDirEscaped=@&quot;$(ProjectDirEscaped)&quot; --set:OutputPathEscaped=@&quot;$(OutputPathEscaped)&quot;" />
+            Command="dotnet lemp %(EcsFile.Identity) --outext=.Generated.cs --o-indent-spaces=4 --set:ProjectDirEscaped=@&quot;$(ProjectDirEscaped)&quot; --set:OutDirEscaped=@&quot;$(OutDirEscaped)&quot; --set:OutDirFullPathEscaped=@&quot;$(OutDirFullPathEscaped)&quot;" />
     </Target>
     <!-- <Target Name="CleanupGenerated" AfterTargets="Clean"><Delete Files="@(Generated)" /></Target> -->
-    <!-- If I want to create the full content-only package -->
-    <!-- <ItemGroup><Compile Update="@(Compile)"><Pack>true</Pack><PackagePath>$(ContentTargetFolders)\cs\netstandard1.0\$(PackageId)\%(RecursiveDir)\</PackagePath></Compile><EmbeddedResource Update="@(EmbeddedResource)"><Pack>true</Pack><PackagePath>$(ContentTargetFolders)\any\any\$(PackageId)\%(RecursiveDir)\</PackagePath></EmbeddedResource></ItemGroup><ItemGroup><PackageReference Remove="@(PackageReference)" /></ItemGroup> -->
     <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
     <Target Name="Compile" />
     <Target Name="CopyFilesToOutputDirectory" />
