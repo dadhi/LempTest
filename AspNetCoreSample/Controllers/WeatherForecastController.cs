@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using CompileTimeDI;
+using AnotherLib;
+using AnotherLib.Experimental;
 
 namespace AspNetCoreSample.Controllers
 {
@@ -24,8 +27,16 @@ namespace AspNetCoreSample.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet("services")]
+        public X GetServices()
+        {
+            var di = new CompileTimeDI.CompileTimeDI();
+            di.Register<Y>(_ => new Y());
+            return di.Resolve<X>();
+        }
+
+        [HttpGet("weather")]
+        public IEnumerable<WeatherForecast> GetWeather()
         {
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

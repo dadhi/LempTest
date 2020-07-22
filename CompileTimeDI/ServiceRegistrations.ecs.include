@@ -13,9 +13,9 @@ compileTime
     // using AnotherLib.Experimental;
 
     // NOTE: Put your registrations here
-    public static CompileTimeDI ConfigureDI() 
+    public static DI ConfigureDI() 
     {
-        var di = new CompileTimeDI();
+        var di = new DI();
         
         // NOTE: Example resgitrations:
         // di.Register<A>(r => new A());
