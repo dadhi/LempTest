@@ -73,6 +73,6 @@ and can be found in the ".nupkg" folder.
 
 ### AspNetCoreSample project
 
-AspNetCoreSample is the .NET Core 3. example application consuming the CompileTimeDI package.
+AspNetCoreSample is the ASP .NET Core v3.1 example application consuming the CompileTimeDI package.
 So it installs the "CompileTimeDI" package from the Local feed (together with LempDotnetTool) and 
-specifies some test service registrations from the AnotherLib project. 
+specifies some test service registrations from the AnotherLib project. Experiment here.
