@@ -22,18 +22,29 @@
             <EcsFile Include="**\*.ecs" />
             <Generated Include="**\*.Generated.cs" />
             <None Include=".\ServiceRegistrations.ecs.include" />
+            <Compile Remove=".\.backup\*.cs" />
         </ItemGroup>
         <PropertyGroup>
             <ProjectDirEscaped>$(ProjectDir.Replace('\', '___'))</ProjectDirEscaped>
             <OutDirEscaped>$(OutDir.Replace('\', '___'))</OutDirEscaped>
             <OutDirFullPathEscaped>$([System.IO.Path]::GetFullPath(OutDir).Replace('\', '___'))</OutDirFullPathEscaped>
         </PropertyGroup>
+        <CallTarget Targets="BackupAndCleanGenerated"/>
         <Exec WorkingDirectory="$(ProjectDir)" 
             Command="dotnet lemp %(EcsFile.Identity) --outext=.Generated.cs --o-indent-spaces=4 --set:ProjectDirEscaped=@&quot;$(ProjectDirEscaped)&quot; --set:OutDirEscaped=@&quot;$(OutDirEscaped)&quot; --set:OutDirFullPathEscaped=@&quot;$(OutDirFullPathEscaped)&quot;" />
+    </Target>
+    <Target Name="BackupAndCleanGenerated" AfterTargets="Clean">
+        <Message Text="Saving old generated files to '.backup' folder..." Importance="high"/>
+        <Copy
+          SourceFiles="@(Generated)" 
+          DestinationFolder=".backup" 
+          SkipUnchangedFiles="true"/>
+        <Delete Files="@(Generated)" />
     </Target>
     <ItemGroup>
         <EcsFile Include="**\*.ecs" />
         <Generated Include="**\*.Generated.cs" />
         <None Include=".\ServiceRegistrations.ecs.include" />
+        <Compile Remove=".\.backup\*.cs" />
     </ItemGroup>
 </Project>

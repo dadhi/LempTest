@@ -1,7 +1,7 @@
 compileTime 
 {
     // NOTE: This is how you can reference the assembly with your types
-    // ##reference(precompute(System.IO.Path.Combine(#get(ProjectDirEscaped).Replace("___", "\\"), @"..\AnotherLib\bin\Debug\netstandard2.0\AnotherLib.dll")));
+    ##reference(precompute(System.IO.Path.Combine(#get(ProjectDirEscaped).Replace("___", "\\"), @"..\AnotherLib\bin\Debug\netstandard2.0\AnotherLib.dll")));
 
     // Variables available via `#get(varName)`:
     // - #get(ProjectDirEscaped))
@@ -9,8 +9,8 @@ compileTime
     // - #get(OutDirFullPathEscaped))
 
     // NOTE: Add the usings for your services here
-    // using AnotherLib;
-    // using AnotherLib.Experimental;
+    using AnotherLib;
+    using AnotherLib.Experimental;
 
     // NOTE: Put your registrations here
     public static DI ConfigureDI() 
@@ -18,9 +18,9 @@ compileTime
         var di = new DI();
         
         // NOTE: Example resgitrations:
-        // di.Register<A>(r => new A());
-        // di.Register<B>(r => new B());
-        // di.Register<X>(r => new X(new A(), new B(), r.Resolve<Y>()));
+        di.Register<A>(r => new A());
+        di.Register<B>(r => new B());
+        di.Register<X>(r => new X(new A(), new B(), r.Resolve<Y>()));
 
         return di;
     }

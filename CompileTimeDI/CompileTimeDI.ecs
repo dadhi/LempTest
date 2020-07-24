@@ -63,16 +63,13 @@
 }
 
 includeFile("ServiceRegistrations.ecs.include");
-// uncomment for testing 
-// includeFile(@".\\Test\\ServiceRegistrations.ecs.include");
-compileTime 
+compileTime
 {
-    using System (.Linq, .Text);
-    using Loyc.Syntax;
+    using System (.Linq, .Text, );
+    using Loyc (.Syntax, .Ecs, );
 
     var registrations = ConfigureDI().Registrations;
 
-    var ecs = Loyc.Ecs.EcsLanguageService.Value;
     var getMethods = registrations
         .Select((r, i) => quote {
             object $(LNode.Id(GetMethodName(r.Key, i)))(IResolver r) => 
@@ -89,17 +86,23 @@ compileTime
 
     string GetMethodName(Type t, int i) => "Get_" + t.Name + "_" + i;
 
+    StringBuilder AppendCsv<T>(StringBuilder s, IList<T> args, Func<T, string> getStr)
+    {
+        for (var i = 0; i < args.Count; ++i)
+            (i == 0 ? s : s.Append(", ")).Append(getStr(args[i]));
+        return s;
+    }
+
+    define operator<<($s, $x) => $s.Append($x);
+
     // primitive implementation for demonstration purposes
     string ExpressionToCSharp(Expression e) 
     {
         if (e is NewExpression n)
         {
             var s = new StringBuilder();
-            s.Append("new ").Append(TypeToCSharp(n.Type, true)).Append('(');
-            var args = n.Arguments;
-            for (var i = 0; i < args.Count; ++i)
-                (i == 0 ? s : s.Append(", ")).Append(ExpressionToCSharp(args[i]));
-            return s.Append(')').ToString();
+            s.Append("new ").Append(TypeToCSharp(n.Type, true));
+            return (AppendCsv(s << '(', n.Arguments, ExpressionToCSharp) << ')').ToString();
         }
 
         if (e is MethodCallExpression m)
@@ -110,19 +113,9 @@ compileTime
 
             s.Append(m.Method.Name);
             if (m.Method.IsGenericMethod)
-            {
-                s.Append("<");
-                var typeArgs = m.Method.GetGenericArguments();
-                for (var i = 0; i < typeArgs.Length; ++i)
-                    (i == 0 ? s : s.Append(", ")).Append(TypeToCSharp(typeArgs[i], true));
-                s.Append(">");
-            }
-            
-            s.Append('(');
-            var args = m.Arguments;
-            for (var i = 0; i < args.Count; ++i)
-                (i == 0 ? s : s.Append(", ")).Append(ExpressionToCSharp(args[i]));
-            return s.Append(')').ToString();
+                AppendCsv(s.Append("<"), m.Method.GetGenericArguments(), t => TypeToCSharp(t, true)).Append(">");
+
+            return AppendCsv(s.Append('('), m.Arguments, ExpressionToCSharp).Append(')').ToString();
         }
 
         return e.ToString();
@@ -130,8 +123,8 @@ compileTime
 
     // `;` is required at the end
     LNode Parse(string expr) => 
-        ecs.ParseSingle(expr + ';', inputType: ParsingMode.Expressions); 
-        //ecs.Parse(r.Value.Body.ToString() + ';'); // works too but requires spread `$(.. Parse(x))` because returns the node list
+        EcsLanguageService.Value.ParseSingle(expr + ';', inputType: ParsingMode.Expressions); 
+        //EcsLanguageService.Parse(r.Value.Body.ToString() + ';'); // works too but requires spread `$(.. Parse(x))` because returns the node list
 
     public string TypeToCSharp(Type type, bool stripNamespace = false, Func<Type, string, string> printType = null) 
     {

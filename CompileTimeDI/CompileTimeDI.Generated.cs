@@ -10,12 +10,12 @@ namespace CompileTimeDI
         TService Resolve<TService>();
     }
 
-    public partial class CompileTimeDI : IResolver
+    public partial class DI : IResolver
     {
         public ConcurrentDictionary<Type, Expression<Func<IResolver, object>>> Registrations;
         public ConcurrentDictionary<Type, Func<IResolver, object>> DelegateCache;
     
-        public CompileTimeDI()
+        public DI()
         {
             Registrations = new ConcurrentDictionary<Type, Expression<Func<IResolver, object>>>();
             DelegateCache = new ConcurrentDictionary<Type, Func<IResolver, object>>();
@@ -58,10 +58,31 @@ namespace CompileTimeDI
 }
 namespace CompileTimeDI
 {
-    partial class CompileTimeDI
+    using AnotherLib;
+    using AnotherLib.Experimental;
+    partial class DI
     {
         partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated)
-        { }
+        {
+            if (serviceType == typeof(B)) {
+                service = Get_B_0(this);
+                isGenerated = true;
+                return;
+            }
+            if (serviceType == typeof(X)) {
+                service = Get_X_1(this);
+                isGenerated = true;
+                return;
+            }
+            if (serviceType == typeof(A)) {
+                service = Get_A_2(this);
+                isGenerated = true;
+                return;
+            }
+        }
     
+        object Get_B_0(IResolver r) => new B();
+        object Get_X_1(IResolver r) => new X(new A(), new B(), r.Resolve<Y>());
+        object Get_A_2(IResolver r) => new A();
     }
 }
