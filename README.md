@@ -25,7 +25,7 @@ The compile-time registrations supposed to be done by User in `ServiceRegistrati
 The generation happens when you `dotnet build` the CompileTimeDI project or the whole solution, and result code can be found in `CompileTimeDI.Generated.cs` file. Check the compilation errors to find if something goes off in generation. Check the generated file to find how your registrations are come to life.
 
 CompileTimeDI is packaged to the content-only NuGet package (it is hard).
-
+****
 ## AspNetCoreSample
 
 AspNetCoreSample is an example of consuming application of CompileTimeDI package.

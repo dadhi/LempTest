@@ -86,14 +86,14 @@ compileTime
 
     string GetMethodName(Type t, int i) => "Get_" + t.Name + "_" + i;
 
+    define operator<<($s, $x) => $s.Append($x);
+
     StringBuilder AppendCsv<T>(StringBuilder s, IList<T> args, Func<T, string> getStr)
     {
         for (var i = 0; i < args.Count; ++i)
-            (i == 0 ? s : s.Append(", ")).Append(getStr(args[i]));
+            (i == 0 ? s : s << ", ") << getStr(args[i]);
         return s;
     }
-
-    define operator<<($s, $x) => $s.Append($x);
 
     // primitive implementation for demonstration purposes
     string ExpressionToCSharp(Expression e) 
@@ -101,21 +101,23 @@ compileTime
         if (e is NewExpression n)
         {
             var s = new StringBuilder();
-            s.Append("new ").Append(TypeToCSharp(n.Type, true));
-            return (AppendCsv(s << '(', n.Arguments, ExpressionToCSharp) << ')').ToString();
+            s << "new " << TypeToCSharp(n.Type, true);
+            AppendCsv(s << '(', n.Arguments, ExpressionToCSharp) << ')';
+            return s.ToString();
         }
 
         if (e is MethodCallExpression m)
         {
             var s = new StringBuilder();
             if (m.Object != null)
-                s.Append(ExpressionToCSharp(m.Object)).Append('.');
+                s << ExpressionToCSharp(m.Object) << '.';
 
             s.Append(m.Method.Name);
             if (m.Method.IsGenericMethod)
-                AppendCsv(s.Append("<"), m.Method.GetGenericArguments(), t => TypeToCSharp(t, true)).Append(">");
+                AppendCsv(s << '<', m.Method.GetGenericArguments(), t => TypeToCSharp(t, true)) << '>';
 
-            return AppendCsv(s.Append('('), m.Arguments, ExpressionToCSharp).Append(')').ToString();
+            AppendCsv(s << '(', m.Arguments, ExpressionToCSharp) << ')';
+            return s.ToString();
         }
 
         return e.ToString();
