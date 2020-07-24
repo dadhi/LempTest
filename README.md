@@ -21,18 +21,18 @@ di.Register<X>(resolver => new X(new A(), resolver.Resolve<B>()));
 
 `resolver.Resolver<B>()` here is bridge to other registration which can be either compile-time or runtime-one.
 You can image that `X` and `A` are your application services and `B` is the some context or configuration provided by 
-framework at runtime. 
+the framework at runtime. 
 
 ## Problems to solve
 
-1. I want the ability to use part of DI to help generate another part of DI at compile-time. It means that I need somehow reference the code (compiled) from compile-time template to generate remaining part of code. But I don't want to split the first part to another library, compile it, then load for the rest of code-generation. So inevitably I am ending-up in chicken-egg problem. For T4 the hack would be to compile the DI project first with the compile-time generation commented out, the uncomment it and load the produced dll to compile it to a new dll with generated code :/
+1. I want the ability to use part of DI to help generate another part of DI at compile-time. It means that I need to reference the code (compiled) from the compile-time template to generate the remaining part of the code. But I don't want to split the first part to another library, then compile it, then load it for the rest of code-generation. So inevitably I am ending-up with the chicken-egg problem. For T4 the hack would be to compile the DI project first with the compile-time generation commented out, then uncomment the generation and load the produced dll to compile the new dll with generated code :/
 
-2. I want to publish the DI as a code NuGet package with the template that's supposed to be modified by user - to put the registrations into it. I want the package to be easy (as automated as possible) consumed by modern .NET Core v3.1 applications, like ASP .NET Core MVC/WebAPI. And this combination currently is the real mess. Here is the [one](https://github.com/NuGet/Home/issues/4837) of the many issues. You need to really [hacking around](https://medium.com/@attilah/source-code-only-nuget-packages-8f34a8fb4738) your way to achieve this. 
+2. I want to publish the DI as a code NuGet package with the template that's supposed to be modified by user - to put the registrations into it. I want the package to be easy (as automated as possible) consumed by modern .NET Core v3.1 applications, like ASP .NET Core MVC/WebAPI. And this combination currently is the real mess. Here is the [one](https://github.com/NuGet/Home/issues/4837) of the many issues. You need to really [hack around](http://diegogiacomelli.com.br/deploying-a-t4-template-with-dotnet-pack) [your way](https://medium.com/@attilah/source-code-only-nuget-packages-8f34a8fb4738) to achieve this. 
 
 3. Given that I already invested the time and created the T4 implementation in DryIoc, 
-it seems that I need to push it further, probably using the [mono implementation](https://github.com/mono/t4). 
-But T4 never felt for me like a good fit to C#, because it manipulates and generates the result like a text and loses the C# semantics.
-The template looks like teared apart C# pieces. The errors are cryptic. Assembly loading and references is a quiz. Etc. etc.
+it seems that I need to push it further, probably using the [mono implementation](https://github.com/mono/t4) to support modern targets. 
+But T4 never felt to me like a good fit for C# because it is a different text manipulating tool tearing the C# code into disjoint parts.
+The errors are cryptic. Assembly loading and references is a quiz.
 
 So here goes...
 
@@ -45,19 +45,19 @@ The project site http://ecsharp.net/
 LeMP compile-time code-generation similar to T4 is supported starting from the [v2.8.1](https://github.com/qwertie/ecsharp/releases/tag/v2.8.1)
 
 LeMP solves the 3rd problem because its compile-time generation capabilities keep the code looking like C# with almost all valid C# syntax.
-And ta-ba-dam, tab=-ba-dam, ... it solves the 1st problem too via `compileAndRuntime {}` which makes code available for the compile-time tools and keeps the code in the result runtime binary.
+And ta-ba-dam, ta-ba-dam, ... it solves the 1st problem too via `compileAndRuntime {}` which makes code available for the compile-time tools and keeps the code in the result runtime binary.
 
 Other goodies are Extended CSharp features, macros and sugar.
 
 ### The build
 
-The solution is supposed to be build and tested in VSCode.
+The solution is supposed to be built and tested in VS Code. I did not yet tested it in Visual Studio.
 
 - Download LeMP zip, unzip it to some folder and add the folder path to Environment PATH variable. Open any terminal and check that "lemp.exe --help" returns something meaningful.
 - Add the folder `.nupkg` as a local MuGet package source: `dotnet nuget add source full\path\to\.nupkg --name Local`
 - Go to "LempDotnetTool" project folder and compile it via `dotnet build`. This will produce the LempDotnetTool package in `.nupkg` wrapping the "LeMP.exe". It is done to simplify installing the LeMP together with the CompileTimeDI package.
 - Go back to solution folder and built it with `dotnet build`
-- For `.ecs` and `.ecs.include` files you may turn On the CSharp syntax highlighting via "Change Language Mode" command (`Ctrl+K,M`) 
+- For `.ecs` and `.ecs.include` files you may turn-on the CSharp syntax highlighting via "Change Language Mode" command (`Ctrl+K,M`) 
 
 
 ### CompileTimeDI project
@@ -73,6 +73,12 @@ and can be found in the ".nupkg" folder.
 
 ### AspNetCoreSample project
 
-AspNetCoreSample is the ASP .NET Core v3.1 example application consuming the CompileTimeDI package.
-So it installs the "CompileTimeDI" package from the Local feed (together with LempDotnetTool) and 
-specifies some test service registrations from the AnotherLib project. Experiment here.
+AspNetCoreSample is the standard ASP .NET Core v3.1 WebApi dotnet template app consuming the CompileTimeDI package.
+It installs the "CompileTimeDI" package from the Local feed (together with LempDotnetTool) and 
+specifies some test service registrations from the AnotherLib project. **No need for a manual file copying and the prolonged user instructions".
+Start the app from the project folder via `dotnet run`.
+Go to the listed `localhost:port/services` in web browser to see the results.
+The compile-time registrations are in `ServiceRegistrations.ecs.include` and the remaing parts are in `WeatherForcastController`.
+
+
+
