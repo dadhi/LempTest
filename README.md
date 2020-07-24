@@ -19,8 +19,8 @@ The typical compile-time service registration will look like this:
 di.Register<X>(resolver => new X(new A(), resolver.Resolve<B>()));
 ```
 
-`resolver.Resolver<B>()` here is bridge to other registration which can be either compile-time or runtime-one.
-You can image that `X` and `A` are your application services and `B` is the some context or configuration provided by 
+`resolver.Resolver<B>()` here is the bridge to another registration which can be either compile-time or runtime-one.
+You can imagine that `X` and `A` are your app services and `B` is a context or configuration provided by 
 the framework at runtime. 
 
 ## Problems to solve
