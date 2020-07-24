@@ -54,7 +54,7 @@ Other goodies are Extended CSharp features, macros and sugar.
 The solution is supposed to be built and tested in VS Code. I did not yet tested it in Visual Studio.
 
 - Download LeMP zip, unzip it to some folder and add the folder path to Environment PATH variable. Open any terminal and check that "lemp.exe --help" returns something meaningful.
-- Add the folder `.nupkg` as a local MuGet package source: `dotnet nuget add source full\path\to\.nupkg --name Local`
+- Add the folder `.nupkg` as a local NuGet source: `dotnet nuget add source full\path\to\.nupkg --name Local`
 - Go to "LempDotnetTool" project folder and compile it via `dotnet build`. This will produce the LempDotnetTool package in `.nupkg` wrapping the "LeMP.exe". It is done to simplify installing the LeMP together with the CompileTimeDI package.
 - Go back to solution folder and built it with `dotnet build`
 - For `.ecs` and `.ecs.include` files you may turn-on the CSharp syntax highlighting via "Change Language Mode" command (`Ctrl+K,M`) 
