@@ -9,7 +9,7 @@ In a simplest form you may consider "service creation code" as a method returnin
 The idea is already implemented in my another project [DryIoc](https://github.com/dadhi/dryioc) using the T4 templates
 but has a number of [problems](https://github.com/dadhi/DryIoc/issues/212).
 
-In this repository I want to solve infrastructure problems and test the ideas **without much accent on DI itself**. 
+In this repository I want to solve these problems and test the ideas **without much accent on DI itself**. 
 Nevertheless, the DI should be a functional solution to make the test actually usable and verify the different aspects of the problem.
 OK, the DryIoc supports both compile-time and runtime registrations, because it not always possible to know everything at compile-time.
 Therefore this DI prototype should support this too. 
