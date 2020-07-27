@@ -1,21 +1,21 @@
 compileTime 
 {
-    //NOTE: This is how you can reference the assembly with your types
-    ##reference(precompute(System.IO.Path.Combine(#get(ProjectDirEscaped).Replace("___", "\\"), "..\\AnotherLib\\bin\\Debug\\netstandard2.0\\AnotherLib.dll")));
+    // NOTE: This is how you can reference the assembly with your types
+    ##reference(precompute(System.IO.Path.Combine(#get(ProjectDir), @"..\AnotherLib\bin\Debug\netstandard2.0\AnotherLib.dll")));
 
     // Variables available via `#get(varName)`:
-    // - #get(ProjectDirEscaped))
-    // - #get(OutDirEscaped))
-    // - #get(OutDirFullPathEscaped))
+    // - #get(ProjectDir))
+    // - #get(OutDir))
+    // - #get(OutDirFullPath))
 
     // NOTE: Add the usings for your services here
     using AnotherLib;
     using AnotherLib.Experimental;
 
     // NOTE: Put your registrations here
-    public static CompileTimeDI ConfigureDI() 
+    public static DI ConfigureDI() 
     {
-        var di = new CompileTimeDI();
+        var di = new DI();
         
         // NOTE: Example resgitrations:
         di.Register<A>(r => new A());

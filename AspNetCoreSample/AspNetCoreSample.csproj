@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CompileTimeDI" Version="1.0.0-preview-13" />
+    <ProjectReference Include="..\AnotherLib\AnotherLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AnotherLib\AnotherLib.csproj" />
+    <PackageReference Include="CompileTimeDI" Version="1.0.0-preview-17" />
   </ItemGroup>
 
 

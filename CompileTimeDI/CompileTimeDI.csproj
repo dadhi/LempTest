@@ -7,17 +7,15 @@
         <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-        <!-- <NoBuild>true</NoBuild> -->
     </PropertyGroup>
-    <!--Packages details-->
-    <PropertyGroup>
+    <PropertyGroup Label="Packaging">
         <VersionPrefix>1.0.0</VersionPrefix>
-        <VersionSuffix>preview-14</VersionSuffix>
+        <VersionSuffix>preview-17</VersionSuffix>
         <Description>Proof-of-concept compile-time Dependency Injection container using LeMP code-generation from the ECSharp</Description>
         <PackageTags>IoC DI InversionOfControl DependencyInjection DryIoc CompileTime LeMP ECSharp Loyc T4 CodeGeneration Macros</PackageTags>
         <PackageReleaseNotes>
             <![CDATA[
-            Proof-of-concept first release
+            Proof-of-concept first release, uses LeMP v2.8.1
 ]]>
         </PackageReleaseNotes>
         <NeutralLanguage>en-US</NeutralLanguage>
@@ -59,7 +57,7 @@
             <OutDirFullPathEscaped>$([System.IO.Path]::GetFullPath('$(OutDir)').Replace('\', '/'))</OutDirFullPathEscaped>
         </PropertyGroup>
         <Exec WorkingDirectory="$(ProjectDir)" 
-            Command="dotnet lemp %(EcsFile.Identity) --outext=.Generated.cs --o-indent-spaces=4 --o-omit-comments=false --set:ProjectDirEscaped=@&quot;$(ProjectDirEscaped)&quot; --set:OutDirEscaped=@&quot;$(OutDirEscaped)&quot; --set:OutDirFullPathEscaped=@&quot;$(OutDirFullPathEscaped)&quot;" />
+            Command="dotnet lemp %(EcsFile.Identity) --outext=.Generated.cs --o-indent-spaces=4 --o-omit-comments=false --set:ProjectDir=@&quot;$(ProjectDirEscaped)&quot; --set:OutDir=@&quot;$(OutDirEscaped)&quot; --set:OutDirFullPath=@&quot;$(OutDirFullPathEscaped)&quot;" />
     </Target>
     <Target Name="BackupAndCleanGenerated" AfterTargets="Clean">
         <Message Text="Saving old generated files to '.backup' folder..." Importance="high"/>

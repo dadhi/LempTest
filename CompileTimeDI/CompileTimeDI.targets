@@ -20,18 +20,18 @@
             Command='dotnet tool install --ignore-failed-sources --tool-manifest "$(MSBuildProjectDirectory)\.config\dotnet-tools.json" --version 1.0.0-preview-01 LempDotnetTool' />
         <ItemGroup>
             <EcsFile Include="**\*.ecs" />
-            <Generated Include="**\*.Generated.cs" />
+            <Generated Include="**\*.Generated.cs" Exclude="**\.backup\*.Generated.cs"/>
             <None Include=".\ServiceRegistrations.ecs.include" />
             <Compile Remove=".\.backup\*.cs" />
         </ItemGroup>
-        <PropertyGroup>
-            <ProjectDirEscaped>$(ProjectDir.Replace('\', '___'))</ProjectDirEscaped>
-            <OutDirEscaped>$(OutDir.Replace('\', '___'))</OutDirEscaped>
-            <OutDirFullPathEscaped>$([System.IO.Path]::GetFullPath(OutDir).Replace('\', '___'))</OutDirFullPathEscaped>
-        </PropertyGroup>
         <CallTarget Targets="BackupAndCleanGenerated"/>
+        <PropertyGroup>
+            <ProjectDirEscaped>$(ProjectDir.Replace('\', '/'))</ProjectDirEscaped>
+            <OutDirEscaped>$(OutDir.Replace('\', '/'))</OutDirEscaped>
+            <OutDirFullPathEscaped>$([System.IO.Path]::GetFullPath('$(OutDir)').Replace('\', '/'))</OutDirFullPathEscaped>
+        </PropertyGroup>
         <Exec WorkingDirectory="$(ProjectDir)" 
-            Command="dotnet lemp %(EcsFile.Identity) --outext=.Generated.cs --o-indent-spaces=4 --set:ProjectDirEscaped=@&quot;$(ProjectDirEscaped)&quot; --set:OutDirEscaped=@&quot;$(OutDirEscaped)&quot; --set:OutDirFullPathEscaped=@&quot;$(OutDirFullPathEscaped)&quot;" />
+            Command="dotnet lemp %(EcsFile.Identity) --outext=.Generated.cs --o-indent-spaces=4 --o-omit-comments=false --set:ProjectDir=@&quot;$(ProjectDirEscaped)&quot; --set:OutDir=@&quot;$(OutDirEscaped)&quot; --set:OutDirFullPath=@&quot;$(OutDirFullPathEscaped)&quot;" />
     </Target>
     <Target Name="BackupAndCleanGenerated" AfterTargets="Clean">
         <Message Text="Saving old generated files to '.backup' folder..." Importance="high"/>
@@ -43,7 +43,7 @@
     </Target>
     <ItemGroup>
         <EcsFile Include="**\*.ecs" />
-        <Generated Include="**\*.Generated.cs" />
+        <Generated Include="**\*.Generated.cs" Exclude="**\.backup\*.Generated.cs"/>
         <None Include=".\ServiceRegistrations.ecs.include" />
         <Compile Remove=".\.backup\*.cs" />
     </ItemGroup>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using CompileTimeDI;
+
 using AnotherLib;
 using AnotherLib.Experimental;
 
@@ -30,7 +30,7 @@ namespace AspNetCoreSample.Controllers
         [HttpGet("services")]
         public X GetServices()
         {
-            var di = new CompileTimeDI.CompileTimeDI();
+            var di = new CompileTimeDI.DI();
             di.Register<Y>(_ => new Y());
             return di.Resolve<X>();
         }
