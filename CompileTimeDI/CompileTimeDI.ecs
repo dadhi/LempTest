@@ -57,6 +57,7 @@
 includeFile("ServiceRegistrations.ecs.include");
 compileTime
 {
+    #ecs;
     using System (.Linq, .Text, );
     using Loyc (.Syntax, .Ecs, );
 
@@ -80,13 +81,19 @@ compileTime
 
     define operator<<($s, $x) => $s.Append($x);
 
-    // [Passive]
-    // define operator>>($s, Hey($items, $itemStr))
-    // {
-    //     for (var i = 0; i < $items::it.Count; ++i)
-    //         (i == 0 ? $s : $s << ", ") << $itemStr(it[i]);
-    //     return $s;
-    // }
+    /*
+    // todo: at the moment it compiles but does not output anything until ecsharp #121 is fixed
+    define runSequence({ $(..args); }) => #runSequence($args);
+
+    [PriorityOverride, Passive]
+    define operator<<($s, ($items, $itemStr)) {
+        runSequence {
+            for (var i = 0; i < $items::it.Count; ++i)
+                $s << (i > 0 ? ", " : string.Empty) << $itemStr(it[i]);
+            $s;
+        }
+    }
+    */
 
     StringBuilder AppendCsv<T>(StringBuilder s, IList<T> args, Func<T, string> getStr)
     {
@@ -102,7 +109,8 @@ compileTime
         {
             var s = new StringBuilder();
             s << "new " << TypeToCSharp(n.Type, true);
-            // s << '(' >> Hey(n.Arguments, ExpressionToCSharp) << ')';
+            // todo: does not work until esharp #121 is fixed
+            // s << '(' << (n.Arguments, ExpressionToCSharp) << ')';
             AppendCsv(s << '(', n.Arguments, ExpressionToCSharp) << ')';
             return s.ToString();
         }
