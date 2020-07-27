@@ -54,9 +54,9 @@
     <Target Name="LempGenerate" BeforeTargets="BeforeBuild">
         <CallTarget Targets="BackupAndCleanGenerated"/>
         <PropertyGroup>
-            <ProjectDirEscaped>$(ProjectDir.Replace('\', '___'))</ProjectDirEscaped>
-            <OutDirEscaped>$(OutDir.Replace('\', '___'))</OutDirEscaped>
-            <OutDirFullPathEscaped>$([System.IO.Path]::GetFullPath('$(OutDir)').Replace('\', '___'))</OutDirFullPathEscaped>
+            <ProjectDirEscaped>$(ProjectDir.Replace('\', '/'))</ProjectDirEscaped>
+            <OutDirEscaped>$(OutDir.Replace('\', '/'))</OutDirEscaped>
+            <OutDirFullPathEscaped>$([System.IO.Path]::GetFullPath('$(OutDir)').Replace('\', '/'))</OutDirFullPathEscaped>
         </PropertyGroup>
         <Exec WorkingDirectory="$(ProjectDir)" 
             Command="dotnet lemp %(EcsFile.Identity) --outext=.Generated.cs --o-indent-spaces=4 --o-omit-comments=false --set:ProjectDirEscaped=@&quot;$(ProjectDirEscaped)&quot; --set:OutDirEscaped=@&quot;$(OutDirEscaped)&quot; --set:OutDirFullPathEscaped=@&quot;$(OutDirFullPathEscaped)&quot;" />
