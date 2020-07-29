@@ -16,10 +16,19 @@
         TService Resolve<TService>();
     }
 
+    // Matches variable declarations and replaces `#var` (the first argument) with the `$T` used for initialization.
+    // Useful to avoid repeating the type twice when declaring fields in classes. 
+    //
+    // Basically it's like a type inference for the field ~~~Yay!
+    // 
+    // The implementation relies on overloading the internal macro #var(T, x = y) for representing the type declaration + assignment replacing the `T` => `#var`.
+    [Passive] // avoids warning on variable declarations that don't match
+    define #var(#var, $name = new $T($(..args)) { $(..initializers) }) => $T $name = new $T($args) { $initializers };
+
     public partial class DI : IResolver
     {
-        replace (T => ConcurrentDictionary<Type, Expression<Func<IResolver, object>>>) { public T Registrations = new T(); }
-        replace (T => ConcurrentDictionary<Type, Func<IResolver, object>>)             { internal T DelegateCache = new T(); }
+        public   #var Registrations = new ConcurrentDictionary<Type, Expression<Func<IResolver, object>>>();
+        internal #var DelegateCache = new ConcurrentDictionary<Type, Func<IResolver, object>>();
 
         public void Register<T>(Expression<Func<IResolver, object>> factory)
         {

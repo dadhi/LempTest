@@ -21,6 +21,7 @@ namespace CompileTimeDI
     {
         public ConcurrentDictionary<Type, Expression<Func<IResolver, object>>> Registrations = new ConcurrentDictionary<Type, Expression<Func<IResolver, object>>>();
         internal ConcurrentDictionary<Type, Func<IResolver, object>> DelegateCache = new ConcurrentDictionary<Type, Func<IResolver, object>>();
+    
         public void Register<T>(Expression<Func<IResolver, object>> factory)
         {
             Registrations.TryAdd(typeof(T), factory);
@@ -67,20 +68,20 @@ namespace CompileTimeDI
                 isGenerated = true;
                 return;
             }
-            if (serviceType == typeof(B)) {
-                service = Get_B_1(this);
+            if (serviceType == typeof(A)) {
+                service = Get_A_1(this);
                 isGenerated = true;
                 return;
             }
-            if (serviceType == typeof(A)) {
-                service = Get_A_2(this);
+            if (serviceType == typeof(B)) {
+                service = Get_B_2(this);
                 isGenerated = true;
                 return;
             }
         }
     
-        object Get_X_0(IResolver r) => new X();
-        object Get_B_1(IResolver r) => new B();
-        object Get_A_2(IResolver r) => new A();
+        object Get_X_0(IResolver r) => new X(new A(), new B(), r.Resolve<Y>());
+        object Get_A_1(IResolver r) => new A();
+        object Get_B_2(IResolver r) => new B();
     }
 }
