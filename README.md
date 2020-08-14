@@ -75,7 +75,7 @@ and can be found in the ".nupkg" folder.
 
 AspNetCoreSample is the standard ASP .NET Core v3.1 WebApi dotnet template app consuming the CompileTimeDI package.
 It installs the "CompileTimeDI" package from the Local feed (together with LempDotnetTool) and 
-specifies some test service registrations from the AnotherLib project. **No need for a manual file copying and the prolonged user instructions".
+specifies some test service registrations from the AnotherLib project. **No need for a manual file copying and the prolonged user instructions**.
 Start the app from the project folder via `dotnet run`.
 Go to the listed `localhost:port/services` in web browser to see the results.
 The compile-time registrations are in `ServiceRegistrations.ecs.include` and the remaing parts are in `WeatherForcastController`.
