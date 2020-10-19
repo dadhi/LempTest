@@ -1,16 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\AnotherLib\AnotherLib.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="CompileTimeDI" Version="1.0.0-preview-17" />
-  </ItemGroup>
-
-
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\AnotherLib\AnotherLib.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="CompileTimeDI" Version="1.0.0-preview-18" />
+    </ItemGroup>
 </Project>

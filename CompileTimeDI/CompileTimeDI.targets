@@ -3,7 +3,7 @@
     <Target Name="CopyEcsToProject" BeforeTargets="Build">
         <Message Text="Targets dir: $(MSBuildThisFileDirectory)" Importance="high"/>
         <Message Text="Project dir: $(MSBuildProjectDirectory)"  Importance="high"/>
-        <Message Text="Copying .ecs template(s) and LempDotnetTool manifest to the project..." Importance="high" />
+        <Message Text="Copying .ecs template(s) and LeMP-tool manifest to the project..." Importance="high" />
         <Copy Condition="!Exists('$(MSBuildProjectDirectory)\CompileTimeDI.ecs')" 
           SourceFiles="$(MSBuildThisFileDirectory)..\content\CompileTimeDI.ecs" 
           DestinationFiles="$(MSBuildProjectDirectory)\CompileTimeDI.ecs" 
@@ -17,7 +17,7 @@
           DestinationFiles="$(MSBuildProjectDirectory)\.config\dotnet-tools.json" 
           SkipUnchangedFiles="true"/>
         <Exec WorkingDirectory="$(MSBuildProjectDirectory)" 
-            Command='dotnet tool install --ignore-failed-sources --tool-manifest "$(MSBuildProjectDirectory)\.config\dotnet-tools.json" --version 1.0.0-preview-01 LempDotnetTool' />
+            Command='dotnet tool install --ignore-failed-sources --tool-manifest "$(MSBuildProjectDirectory)\.config\dotnet-tools.json" --version 28.2.0 lemp-tool' />
         <ItemGroup>
             <EcsFile Include="**\*.ecs" />
             <Generated Include="**\*.Generated.cs" Exclude="**\.backup\*.Generated.cs"/>

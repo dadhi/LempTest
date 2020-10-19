@@ -1,6 +1,0 @@
-compileTime 
-{
-    using C = System.Console;
-    var a = #get(a);
-    C.WriteLine(a);
-}

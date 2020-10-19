@@ -59,6 +59,7 @@ namespace CompileTimeDI
 {
     using AnotherLib.Experimental;
     using AnotherLib;
+
     partial class DI
     {
         partial void TryResolveGenerated(Type serviceType, ref object service, ref bool isGenerated)

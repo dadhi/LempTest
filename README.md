@@ -44,6 +44,8 @@ The project site http://ecsharp.net/
 
 LeMP compile-time code-generation similar to T4 is supported starting from the [v2.8.1](https://github.com/qwertie/ecsharp/releases/tag/v2.8.1)
 
+**Update:** There dotnet CLI [LeMP-tool](https://www.nuget.org/packages/LeMP-tool) is available now to install and manage LeMP through NuGet.
+
 LeMP solves the 3rd problem because its compile-time generation capabilities keep the code looking like C# with almost all valid C# syntax.
 And ta-ba-dam, ta-ba-dam, ... it solves the 1st problem too via `compileAndRuntime {}` which makes code available for the compile-time tools and keeps the code in the result runtime binary.
 
@@ -53,10 +55,8 @@ Other goodies are Extended CSharp features, macros and sugar.
 
 The solution is supposed to be built and tested in VS Code. I did not yet tested it in Visual Studio.
 
-- Download LeMP zip, unzip it to some folder and add the folder path to Environment PATH variable. Open any terminal and check that "lemp.exe --help" returns something meaningful.
 - Add the folder `.nupkg` as a local NuGet source: `dotnet nuget add source full\path\to\.nupkg --name Local`
-- Go to "LempDotnetTool" project folder and compile it via `dotnet build`. This will produce the LempDotnetTool package in `.nupkg` wrapping the "LeMP.exe". It is done to simplify installing the LeMP together with the CompileTimeDI package.
-- Go back to solution folder and built it with `dotnet build`
+- Go to solution folder and built it with `dotnet build`
 - For `.ecs` and `.ecs.include` files you may turn-on the CSharp syntax highlighting via "Change Language Mode" command (`Ctrl+K,M`) 
 
 
@@ -79,6 +79,4 @@ specifies some test service registrations from the AnotherLib project. **No need
 Start the app from the project folder via `dotnet run`.
 Go to the listed `localhost:port/services` in web browser to see the results.
 The compile-time registrations are in `ServiceRegistrations.ecs.include` and the remaing parts are in `WeatherForcastController`.
-
-
 
