@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "lemp-tool": {
-      "version": "28.2.0",
+      "version": "28.3.0",
       "commands": [
         "LeMP"
       ]

@@ -90,19 +90,19 @@ compileTime
 
     define operator<<($s, $x) => $s.Append($x);
 
-    /*
-    // todo: at the moment it compiles but does not output anything until ecsharp #121 is fixed
-    define runSequence({ $(..args); }) => #runSequence($args);
+    define runSequence({ $(..args); }) {
+        #runSequence($args);
+    }
 
+    // todo: @wip does not work until esharp #121 is fixed
     [PriorityOverride, Passive]
     define operator<<($s, ($items, $itemStr)) {
         runSequence {
             for (var i = 0; i < $items::it.Count; ++i)
-                $s << (i > 0 ? ", " : string.Empty) << $itemStr(it[i]);
+                (i > 0 ? $s << ", " : $s) << $itemStr(it[i]);
             $s;
         }
     }
-    */
 
     StringBuilder AppendCsv<T>(StringBuilder s, IList<T> args, Func<T, string> getStr)
     {
@@ -118,7 +118,7 @@ compileTime
         {
             var s = new StringBuilder();
             s << "new " << TypeToCSharp(n.Type, true);
-            // todo: does not work until esharp #121 is fixed
+            // todo: @wip does not work until esharp #121 is fixed
             // s << '(' << (n.Arguments, ExpressionToCSharp) << ')';
             AppendCsv(s << '(', n.Arguments, ExpressionToCSharp) << ')';
             return s.ToString();
