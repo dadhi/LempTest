@@ -20,6 +20,7 @@ compileTime
         }
     }
 
+    string Ack(string s) => s + "!";
     var names = new[] { "Holly", "Molly" };
     var b = new StringBuilder();
     // b << "Hello"  // This works!
