@@ -1,0 +1,34 @@
+compileTime
+{
+    #ecs;
+    using Loyc (.Syntax, .Ecs, );
+
+    define operator<<($s, $x) => $s.Append($x);
+
+    define runSequence({ $(..args); }) {
+        #runSequence($args);
+    }
+
+    // todo: @wip does not work until esharp #121 is fixed
+    [PriorityOverride, Passive]
+    define operator<<($s, ($items, $itemStr)) {
+        runSequence {
+            for (var i = 0; i < $items::it.Count; ++i)
+                (i > 0 ? $s << ", " : $s) << $itemStr(it[i]);
+            $s;
+        }
+    }
+}
+
+#useSequenceExpressions; // note: required and need to be put exactly here
+using System.Text;
+static class X
+{
+    public static string Ack(string s) => s + "!";
+    public static steing SayHello(StringBuilder b)
+    {
+        var names = new[] { "Holly", "Molly" };
+        b << "Hello " << (names, Ack) << " here";
+        return b.ToString();
+    }
+}
