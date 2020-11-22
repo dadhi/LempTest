@@ -1,0 +1,1 @@
+lemp CompileTimeDI.ecs --outext=.Generated.cs --o-indent-spaces=4 --o-omit-comments=false --set:ProjectDir=@C:/Code/LempTemplatingTest/CompileTimeDI
