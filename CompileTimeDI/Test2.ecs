@@ -1,0 +1,9 @@
+using System (.Collections.Generic, );
+
+static class X
+{
+    public static void Main()
+    {
+        Console.WriteLine(typeof(List<>) == typeof(Dictionary<,>))
+    }
+}

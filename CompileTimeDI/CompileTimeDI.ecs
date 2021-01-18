@@ -119,8 +119,8 @@ compileTime
             var s = new StringBuilder();
             s << "new " << TypeToCSharp(n.Type, true);
             // todo: @wip does not work until esharp #121 is fixed
-            s << '(' << (n.Arguments, ExpressionToCSharp) << ')';
-            // AppendCsv(s << '(', n.Arguments, ExpressionToCSharp) << ')';
+            // s << '(' << (n.Arguments, ExpressionToCSharp) << ')';
+            AppendCsv(s << '(', n.Arguments, ExpressionToCSharp) << ')';
             return s.ToString();
         }
 
