@@ -90,17 +90,15 @@ compileTime
 
     define operator<<($s, $x) => $s.Append($x);
 
-    define runSequence({ $(..args); }) {
-        #runSequence($args);
-    }
-
-    // todo: @wip does not work until esharp #121 is fixed
+    // note: or we can do a instance method kind of macros `define ($obj.AppendCsv($list, $itemToStr)) {`
     [PriorityOverride, Passive]
     define operator<<($s, ($items, $itemStr)) {
-        runSequence {
-            for (var i = 0; i < $items::it.Count; ++i)
-                (i > 0 ? $s << ", " : $s) << $itemStr(it[i]);
-            $s;
+        #runSequence {
+            var temp# = $s;
+            for (var i = 0; i < $items.Count; ++i)
+                (i == 0 ? temp# : temp#.Append(", "))
+                    .Append($itemStr($items[i]));
+            temp#;
         }
     }
 
@@ -118,9 +116,7 @@ compileTime
         {
             var s = new StringBuilder();
             s << "new " << TypeToCSharp(n.Type, true);
-            // todo: @wip does not work until esharp #121 is fixed
-            // s << '(' << (n.Arguments, ExpressionToCSharp) << ')';
-            AppendCsv(s << '(', n.Arguments, ExpressionToCSharp) << ')';
+            s << '(' << (n.Arguments, ExpressionToCSharp) << ')';
             return s.ToString();
         }
 
