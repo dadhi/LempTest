@@ -4,20 +4,20 @@ compileTime
     ##reference(precompute(System.IO.Path.Combine(#get(ProjectDir), @"..\AnotherLib\bin\Debug\netstandard2.0\AnotherLib.dll")));
 
     // Variables available via `#get(varName)`:
-    // - #get(ProjectDir))
-    // - #get(OutDir))
-    // - #get(OutDirFullPath))
+    // - #get(ProjectDir)
+    // - #get(OutDir)
+    // - #get(OutDirFullPath)
 
-    // NOTE: Add the usings for your services here
+    // Add the usings for your services here
     using AnotherLib;
     using AnotherLib.Experimental;
 
-    // NOTE: Put your registrations here
+    // Put your registrations here
     public static DI ConfigureDI() 
     {
         var di = new DI();
         
-        // NOTE: Example resgitrations:
+        // Example registrations:
         di.Register<A>(r => new A());
         di.Register<B>(r => new B());
         di.Register<X>(r => new X(new A(), new B(), r.Resolve<Y>()));

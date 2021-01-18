@@ -6,6 +6,6 @@
         <ProjectReference Include="..\AnotherLib\AnotherLib.csproj" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="CompileTimeDI" Version="1.0.0-preview-18" />
+      <PackageReference Include="CompileTimeDI" Version="1.0.0-preview-20" />
     </ItemGroup>
 </Project>

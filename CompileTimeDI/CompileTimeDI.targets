@@ -1,6 +1,6 @@
 <Project
     xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Target Name="CopyEcsToProject" BeforeTargets="Build">
+    <Target Name="CopyEcsToProject" BeforeTargets="BeforeBuild">
         <Message Text="Targets dir: $(MSBuildThisFileDirectory)" Importance="high"/>
         <Message Text="Project dir: $(MSBuildProjectDirectory)"  Importance="high"/>
         <Message Text="Copying .ecs template(s) and LeMP-tool manifest to the project..." Importance="high" />
@@ -17,7 +17,7 @@
           DestinationFiles="$(MSBuildProjectDirectory)\.config\dotnet-tools.json" 
           SkipUnchangedFiles="true"/>
         <Exec WorkingDirectory="$(MSBuildProjectDirectory)" 
-            Command='dotnet tool install --ignore-failed-sources --tool-manifest "$(MSBuildProjectDirectory)\.config\dotnet-tools.json" --version 28.2.0 lemp-tool' />
+            Command='dotnet tool install --ignore-failed-sources --tool-manifest "$(MSBuildProjectDirectory)\.config\dotnet-tools.json" lemp-tool' />
         <ItemGroup>
             <EcsFile Include="**\*.ecs" />
             <Generated Include="**\*.Generated.cs" Exclude="**\.backup\*.Generated.cs"/>
